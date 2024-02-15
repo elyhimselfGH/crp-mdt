@@ -1261,6 +1261,12 @@ if (isset($_COOKIE['discord_access_token'])) {
                                                 }
                                                 ?>
 
+                                                    <style>
+                                                    .even-columns th, .even-columns td {
+                                                        width: calc(100% / 7); /* Adjust the denominator to match the number of columns */
+                                                    }
+                                                </style>
+
                                                 <?php
                                                 session_start();
 
@@ -1272,15 +1278,23 @@ if (isset($_COOKIE['discord_access_token'])) {
                                                     $result = mysqli_query($conn, $query);
 
                                                     if ($result) {
-
                                                         if (mysqli_num_rows($result) > 0) {
-                                                            echo '<div class="elementor-element elementor-element-6379c06 selector e-flex e-con-boxed e-con e-child" data-id="6379c06" data-element_type="container" data-settings="{&quot;container_type&quot;:&quot;flex&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
+                                                            
+                                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                                $selectCharacterName = $row['charname'];
+                                                                $selectCharacterID = $row['charid'];
+
+                                                                $query2 = "SELECT * FROM civVehicles WHERE charID = $selectedCharID ORDER BY dateRegistered DESC";
+                                                                $result2 = mysqli_query($conn, $query2);
+
+                                                                if ($result2 && mysqli_num_rows($result2) > 0) {
+                                                                    echo '<div class="elementor-element elementor-element-6379c06 selector e-flex e-con-boxed e-con e-child" data-id="6379c06" data-element_type="container" data-settings="{&quot;container_type&quot;:&quot;flex&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
                                                             <div class="e-con-inner">
                                                                 <div class="elementor-element elementor-element-425a852 elementor-widget elementor-widget-elementskit-table" data-id="425a852" data-element_type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="elementskit-table.default">
                                                                     <div class="elementor-widget-container">
                                                                         <div class="ekit-wid-con">
                                                                             <div class="ekit_table display  ekit_table_data_type-custom" data-settings="{&quot;fixedHeader&quot;:false,&quot;search&quot;:false,&quot;responsive&quot;:false,&quot;pagination&quot;:false,&quot;button&quot;:false,&quot;entries&quot;:false,&quot;info&quot;:false,&quot;ordering&quot;:false,&quot;item_per_page&quot;:10,&quot;nav_style&quot;:&quot;&quot;,&quot;prev_text&quot;:&quot;&quot;,&quot;next_text&quot;:&quot;&quot;,&quot;prev_arrow&quot;:&quot;&quot;,&quot;next_arrow&quot;:&quot;&quot;}">
-                                                                                <table id="ekit-table-container-425a852" class="display dataTable" style="width:100%">
+                                                                                <table id="ekit-table-container-425a852" class="display dataTable even-columns" style="width:100%">
                                                                                     <thead>
                                                                                         <tr>
                                                                                             <th style="border-top-left-radius: 5px;" class="elementor-repeater-item-f691a13">
@@ -1306,15 +1320,6 @@ if (isset($_COOKIE['discord_access_token'])) {
                                                                                             </th>
                                                                                         </tr>
                                                                                     </thead>';
-                                                            while ($row = mysqli_fetch_assoc($result)) {
-                                                                $selectCharacterName = $row['charname'];
-                                                                $selectCharacterID = $row['charid'];
-
-                                                                $query2 = "SELECT * FROM civVehicles WHERE charID = $selectedCharID ORDER BY dateRegistered DESC";
-                                                                $result2 = mysqli_query($conn, $query2);
-
-                                                                if ($result2) {
-                                                                    if (mysqli_num_rows($result2) > 0) {
                                                                         while ($row2 = mysqli_fetch_assoc($result2)) {
                                                                             $vehicleName = $row2['vehicleMakeModel'];
                                                                             $vehiclePlate = $row2['vehiclePlate'];
@@ -1346,27 +1351,33 @@ if (isset($_COOKIE['discord_access_token'])) {
                                                                                     <div class="ekit_table_body_container ekit_table_data_ ekit_body_align_left">'.$vehicleVin.'                                    </div>
                                                                                 </td>
                                                                                 <td data-order="Column 7" class="elementor-repeater-item-9baadb4 ekit_table_data_">
-                                                                                    <div class="ekit_table_body_container ekit_table_data_ ekit_body_align_left"><a href="#elementor-action%3Aaction%3Dpopup%3Aopen%26settings%3DeyJpZCI6IjE0MDc4IiwidG9nZ2xlIjpmYWxzZX0%3D"><btn>Edit</btn></a>, Delete                                    </div>
+                                                                                    <div class="ekit_table_body_container ekit_table_data_ ekit_body_align_left"><a href="#elementor-action%3Aaction%3Dpopup%3Aopen%26settings%3DeyJpZCI6IjE0MDc4IiwidG9nZ2xlIjpmYWxzZX0%3D"><span style="color: white; background: #35343C; border: 1px solid #4A4753; padding: 5px; border-radius: 5px; margin-right: 5px;">Edit</span></a> <span style="color: white; background: #bd3333;border: 1px solid #bd3333;padding: 3px;border-radius: 5px;">Delete</span></div>
                                                                                 </td>
-                                                                        </tbody>';
+                                                                                ';
+                                                                                echo '</tbody>';
+                                                                        
 
                                                                         }
-                                                                    }
+                                                                        echo '</table>';
+                                                                        echo '</div>';
+                                                                        echo '</div>';
+                                                                        echo '</div>';
+                                                                        echo '</div>';
+                                                                        echo '</div>';
+                                                                        echo '</div>';
+                                                                        
+                                                                        
+                                                                        
+                                                                        
                                                                 }
-                                                            }
+                                                            } 
                                                         }
-                                                    }
-                                                    echo '</table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>';
+                                                    }  
+                                                    echo '</div>';
+                                                    echo '</div>';
                                         }
                                         ?>
+                                        
                                                 
                                                 
                                                                             
@@ -1376,7 +1387,9 @@ if (isset($_COOKIE['discord_access_token'])) {
                                                 <div class="elementor-element elementor-element-2e44bb4 selector e-flex e-con-boxed e-con e-child" data-id="2e44bb4" data-element_type="container" data-settings="{&quot;container_type&quot;:&quot;flex&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
                                                     <div class="e-con-inner">
 
-                                                <?php
+                                                
+
+                                        <?php
                                                 session_start();
 
                                                 // Check if the selectedChar parameter is present in the URL
@@ -1387,15 +1400,23 @@ if (isset($_COOKIE['discord_access_token'])) {
                                                     $result = mysqli_query($conn, $query);
 
                                                     if ($result) {
-
                                                         if (mysqli_num_rows($result) > 0) {
-                                                            echo '<div class="elementor-element elementor-element-6379c06 selector e-flex e-con-boxed e-con e-child" data-id="6379c06" data-element_type="container" data-settings="{&quot;container_type&quot;:&quot;flex&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
+                                                            
+                                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                                $selectCharacterName = $row['charname'];
+                                                                $selectCharacterID = $row['charid'];
+
+                                                                $query2 = "SELECT * FROM civWeapons WHERE charID = $selectedCharID ORDER BY dateRegistered DESC";
+                                                                $result2 = mysqli_query($conn, $query2);
+
+                                                                if ($result2 && mysqli_num_rows($result2) > 0) {
+                                                                    echo '<div class="elementor-element elementor-element-6379c06 selector e-flex e-con-boxed e-con e-child" data-id="6379c06" data-element_type="container" data-settings="{&quot;container_type&quot;:&quot;flex&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
                                                             <div class="e-con-inner">
                                                                 <div class="elementor-element elementor-element-425a852 elementor-widget elementor-widget-elementskit-table" data-id="425a852" data-element_type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="elementskit-table.default">
                                                                     <div class="elementor-widget-container">
                                                                         <div class="ekit-wid-con">
                                                                             <div class="ekit_table display  ekit_table_data_type-custom" data-settings="{&quot;fixedHeader&quot;:false,&quot;search&quot;:false,&quot;responsive&quot;:false,&quot;pagination&quot;:false,&quot;button&quot;:false,&quot;entries&quot;:false,&quot;info&quot;:false,&quot;ordering&quot;:false,&quot;item_per_page&quot;:10,&quot;nav_style&quot;:&quot;&quot;,&quot;prev_text&quot;:&quot;&quot;,&quot;next_text&quot;:&quot;&quot;,&quot;prev_arrow&quot;:&quot;&quot;,&quot;next_arrow&quot;:&quot;&quot;}">
-                                                                                <table id="ekit-table-container-425a852" class="display dataTable" style="width:100%">
+                                                                                <table id="ekit-table-container-425a852" class="display dataTable even-columns" style="width:100%">
                                                                                     <thead>
                                                                                         <tr>
                                                                                             <th style="border-top-left-radius: 5px;" class="elementor-repeater-item-f691a13">
@@ -1421,25 +1442,16 @@ if (isset($_COOKIE['discord_access_token'])) {
                                                                                             </th>
                                                                                         </tr>
                                                                                     </thead>';
-                                                            while ($row = mysqli_fetch_assoc($result)) {
-                                                                $selectCharacterName = $row['charName'];
-                                                                $selectCharacterID = $row['charID'];
-
-                                                                $query2 = "SELECT * FROM civWeapons WHERE charID = $selectedCharID ORDER BY dateRegistered DESC";
-                                                                $result2 = mysqli_query($conn, $query2);
-
-                                                                if ($result2) {
-                                                                    if (mysqli_num_rows($result2) > 0) {
                                                                         while ($row2 = mysqli_fetch_assoc($result2)) {
                                                                             $weaponType = $row2['weaponType'];
-                                                                                    $weaponModel = $row2['weaponModel'];
-                                                                                    $weaponFlags = $row2['weaponFlags'];
-                                                                                    $weaponSerialNumber = $row2['weaponSerialNumber'];
-                                                                                    $weaponColour = $row2['weaponColour'];
-                                                                                    $dateRegistered = $row2['dateRegistered'];
-                                                                                    $weaponID = $row2['weaponID'];
-                                                                                    $weaponAttachments = $row2['weaponAttachments'];
-                                                                                    $weaponRegStatus = $row2['weaponRegStatus'];
+                                                                            $weaponModel = $row2['weaponModel'];
+                                                                            $weaponFlags = $row2['weaponFlags'];
+                                                                            $weaponSerialNumber = $row2['weaponSerialNumber'];
+                                                                            $weaponColour = $row2['weaponColour'];
+                                                                            $dateRegistered = $row2['dateRegistered'];
+                                                                            $weaponID = $row2['weaponID'];
+                                                                            $weaponAttachments = $row2['weaponAttachments'];
+                                                                            $weaponRegStatus = $row2['weaponRegStatus'];
 
                                                                             echo '<tbody>
                                                                             <tr>
@@ -1462,30 +1474,33 @@ if (isset($_COOKIE['discord_access_token'])) {
                                                                                     <div class="ekit_table_body_container ekit_table_data_ ekit_body_align_left">'.$weaponFlags.'                                    </div>
                                                                                 </td>
                                                                                 <td data-order="Column 7" class="elementor-repeater-item-9baadb4 ekit_table_data_">
-                                                                                    <div class="ekit_table_body_container ekit_table_data_ ekit_body_align_left"><a href="#elementor-action%3Aaction%3Dpopup%3Aopen%26settings%3DeyJpZCI6IjE0MDkxIiwidG9nZ2xlIjpmYWxzZX0%3D"><btn>Edit</btn></a>, Delete                                    </div>
+                                                                                    <div class="ekit_table_body_container ekit_table_data_ ekit_body_align_left"><a href="#elementor-action%3Aaction%3Dpopup%3Aopen%26settings%3DeyJpZCI6IjE0MDkxIiwidG9nZ2xlIjpmYWxzZX0%3D"><span style="color: white; background: #35343C; border: 1px solid #4A4753; padding: 5px; border-radius: 5px; margin-right: 5px;">Edit</span></a> <span style="color: white; background: #bd3333;border: 1px solid #bd3333;padding: 3px;border-radius: 5px;">Delete</span></div>
                                                                                 </td>
-                                                                        </tbody>';
+                                                                                ';
+                                                                                echo '</tbody>';
+                                                                        
 
                                                                         }
-                                                                    }
-                                                                } else {
-                                                                    //
+                                                                        echo '</table>';
+                                                                        echo '</div>';
+                                                                        echo '</div>';
+                                                                        echo '</div>';
+                                                                        echo '</div>';
+                                                                        echo '</div>';
+                                                                        echo '</div>';
+                                                                        
+                                                                        
+                                                                        
+                                                                        
                                                                 }
-                                                            }
+                                                            } 
                                                         }
-                                                    }
-                                                    echo '</table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ';
+                                                    }  
+                                                    echo '</div>';
+                                                    echo '</div>';
                                         }
                                         ?>
-                                                    </div>
-                                                </div>
+                                                    
                                                 <?php
                                             session_start();
 
@@ -1538,7 +1553,8 @@ if (isset($_COOKIE['discord_access_token'])) {
                                             <div class="e-con-inner">
                                                 <div class="elementor-element elementor-element-0b099d6 selector e-flex e-con-boxed e-con e-child" data-id="0b099d6" data-element_type="container" data-settings="{&quot;container_type&quot;:&quot;flex&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
                                                     <div class="e-con-inner">
-                                                    <?php
+                                                    
+                                                <?php
                                                 session_start();
 
                                                 // Check if the selectedChar parameter is present in the URL
@@ -1549,15 +1565,23 @@ if (isset($_COOKIE['discord_access_token'])) {
                                                     $result = mysqli_query($conn, $query);
 
                                                     if ($result) {
-
                                                         if (mysqli_num_rows($result) > 0) {
-                                                            echo '<div class="elementor-element elementor-element-6379c06 selector e-flex e-con-boxed e-con e-child" data-id="6379c06" data-element_type="container" data-settings="{&quot;container_type&quot;:&quot;flex&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
+                                                            
+                                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                                $selectCharacterName = $row['charname'];
+                                                                $selectCharacterID = $row['charid'];
+
+                                                                $query2 = "SELECT * FROM leoReports WHERE charID = $selectedCharID ORDER BY reportTimeDate DESC";
+                                                                $result2 = mysqli_query($conn, $query2);
+
+                                                                if ($result2 && mysqli_num_rows($result2) > 0) {
+                                                                    echo '<div class="elementor-element elementor-element-6379c06 selector e-flex e-con-boxed e-con e-child" data-id="6379c06" data-element_type="container" data-settings="{&quot;container_type&quot;:&quot;flex&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
                                                             <div class="e-con-inner">
                                                                 <div class="elementor-element elementor-element-425a852 elementor-widget elementor-widget-elementskit-table" data-id="425a852" data-element_type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="elementskit-table.default">
                                                                     <div class="elementor-widget-container">
                                                                         <div class="ekit-wid-con">
                                                                             <div class="ekit_table display  ekit_table_data_type-custom" data-settings="{&quot;fixedHeader&quot;:false,&quot;search&quot;:false,&quot;responsive&quot;:false,&quot;pagination&quot;:false,&quot;button&quot;:false,&quot;entries&quot;:false,&quot;info&quot;:false,&quot;ordering&quot;:false,&quot;item_per_page&quot;:10,&quot;nav_style&quot;:&quot;&quot;,&quot;prev_text&quot;:&quot;&quot;,&quot;next_text&quot;:&quot;&quot;,&quot;prev_arrow&quot;:&quot;&quot;,&quot;next_arrow&quot;:&quot;&quot;}">
-                                                                                <table id="ekit-table-container-425a852" class="display dataTable" style="width:100%">
+                                                                                <table id="ekit-table-container-425a852" class="display dataTable even-columns" style="width:100%">
                                                                                     <thead>
                                                                                         <tr>
                                                                                             <th style="border-top-left-radius: 5px;" class="elementor-repeater-item-f691a13">
@@ -1583,15 +1607,6 @@ if (isset($_COOKIE['discord_access_token'])) {
                                                                                             </th>
                                                                                         </tr>
                                                                                     </thead>';
-                                                            while ($row = mysqli_fetch_assoc($result)) {
-                                                                $selectCharacterName = $row['charName'];
-                                                                $selectCharacterID = $row['charID'];
-
-                                                                $query2 = "SELECT * FROM leoReports WHERE charID = $selectedCharID ORDER BY reportTimeDate DESC";
-                                                                $result2 = mysqli_query($conn, $query2);
-
-                                                                if ($result2) {
-                                                                    if (mysqli_num_rows($result2) > 0) {
                                                                         while ($row2 = mysqli_fetch_assoc($result2)) {
                                                                             $reportID = $row2['reportID'];
                                                                             $reportType = $row2['reportType'];
@@ -1607,7 +1622,7 @@ if (isset($_COOKIE['discord_access_token'])) {
                                                                             } else if($reportFlags === "No") {
                                                                                 $reportFlags = "Approved";
                                                                             }
-                                                                            
+
                                                                             echo '<tbody>
                                                                             <tr>
                                                                                 <td data-order="Column 1" class="elementor-repeater-item-092e007 ekit_table_data_">
@@ -1629,30 +1644,33 @@ if (isset($_COOKIE['discord_access_token'])) {
                                                                                     <div class="ekit_table_body_container ekit_table_data_ ekit_body_align_left">'.$reportFlags.'                                    </div>
                                                                                 </td>
                                                                                 <td data-order="Column 7" class="elementor-repeater-item-9baadb4 ekit_table_data_">
-                                                                                    <div class="ekit_table_body_container ekit_table_data_ ekit_body_align_left">Edit, Delete                                    </div>
+                                                                                    <div class="ekit_table_body_container ekit_table_data_ ekit_body_align_left"><span style="background: #35343C; border: 1px solid #4A4753; padding: 5px; border-radius: 5px;">View Report</span></div>
                                                                                 </td>
-                                                                        </tbody>';
+                                                                                ';
+                                                                                echo '</tbody>';
+                                                                        
 
                                                                         }
-                                                                    }
-                                                                } else {
-                                                                    echo 't';
+                                                                        echo '</table>';
+                                                                        echo '</div>';
+                                                                        echo '</div>';
+                                                                        echo '</div>';
+                                                                        echo '</div>';
+                                                                        echo '</div>';
+                                                                        echo '</div>';
+                                                                        
+                                                                        
+                                                                        
+                                                                        
                                                                 }
-                                                            }
+                                                            } 
                                                         }
-                                                    }
-                                                    echo '</table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ';
+                                                    }  
+                                                    echo '</div>';
+                                                    echo '</div>';
                                         }
                                         ?>
-                                                    </div>
-                                                </div>
+                                        
                                                 <div class="elementor-element elementor-element-1ee289e e-flex e-con-boxed e-con e-child" data-id="1ee289e" data-element_type="container" data-settings="{&quot;container_type&quot;:&quot;flex&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
                                                     <div class="e-con-inner">
                                                         <div class="elementor-element elementor-element-71a97f4 e-con-full e-flex e-con e-child" data-id="71a97f4" data-element_type="container" data-settings="{&quot;content_width&quot;:&quot;full&quot;,&quot;container_type&quot;:&quot;flex&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
@@ -1997,97 +2015,139 @@ if (isset($_COOKIE['discord_access_token'])) {
                 </div>
             </div>
         </div>
-        <div data-elementor-type="popup" data-elementor-id="14014" class="elementor elementor-14014 elementor-location-popup" data-elementor-settings="{&quot;entrance_animation&quot;:&quot;zoomIn&quot;,&quot;entrance_animation_duration&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:0.15,&quot;sizes&quot;:[]},&quot;prevent_scroll&quot;:&quot;yes&quot;,&quot;avoid_multiple_popups&quot;:&quot;yes&quot;,&quot;exit_animation&quot;:&quot;zoomIn&quot;,&quot;prevent_close_on_background_click&quot;:&quot;yes&quot;,&quot;prevent_close_on_esc_key&quot;:&quot;yes&quot;,&quot;a11y_navigation&quot;:&quot;yes&quot;,&quot;timing&quot;:[]}" data-elementor-post-type="elementor_library">
-            <div class="elementor-section-wrap">
-                <div class="elementor-element elementor-element-1e28827 e-flex e-con-boxed e-con e-parent" data-id="1e28827" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;container_type&quot;:&quot;flex&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}" data-core-v316-plus="true">
-                    <div class="e-con-inner">
-                        <div class="elementor-element elementor-element-59e7f7d e-grid vehicles-active e-con-full e-con e-parent" data-id="59e7f7d" data-element_type="container" data-settings="{&quot;container_type&quot;:&quot;grid&quot;,&quot;grid_columns_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;background_background&quot;:&quot;classic&quot;,&quot;content_width&quot;:&quot;full&quot;,&quot;grid_columns_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_columns_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_rows_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_auto_flow&quot;:&quot;row&quot;,&quot;grid_auto_flow_tablet&quot;:&quot;row&quot;,&quot;grid_auto_flow_mobile&quot;:&quot;row&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}" data-core-v316-plus="true">
-                            <div class="elementor-element elementor-element-bb4182f e-grid e-con-boxed e-con e-parent" data-id="bb4182f" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;container_type&quot;:&quot;grid&quot;,&quot;grid_columns_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;content_width&quot;:&quot;boxed&quot;,&quot;grid_outline&quot;:&quot;yes&quot;,&quot;grid_columns_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_columns_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_rows_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_auto_flow&quot;:&quot;row&quot;,&quot;grid_auto_flow_tablet&quot;:&quot;row&quot;,&quot;grid_auto_flow_mobile&quot;:&quot;row&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}" data-core-v316-plus="true">
-                                <div class="e-con-inner">
-                                    <div class="elementor-element elementor-element-d8558da e-flex e-con-boxed e-con e-parent" data-id="d8558da" data-element_type="container" data-settings="{&quot;container_type&quot;:&quot;flex&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}" data-core-v316-plus="true">
-                                        <div class="e-con-inner">
-                                            <div class="elementor-element elementor-element-59e837f elementor-widget elementor-widget-heading" data-id="59e837f" data-element_type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="heading.default">
-                                                <div class="elementor-widget-container">
-                                                    <h2 class="elementor-heading-title elementor-size-default">Edit Character</h2>
+        <?php
+            session_start();
+
+            // Check if the selectedChar parameter is present in the URL
+            if (isset($_GET['selectedChar'])) {
+            $selectedCharID = $_GET['selectedChar'];
+
+            $query = "SELECT * FROM civCharacters WHERE charID = $selectedCharID AND charOwner = $userid";
+            $result = mysqli_query($conn, $query);
+
+            if ($result) {
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $selectCharacterName = $row['charName'];
+                    $selectCharacterID = $row['charID'];
+                    $selectCharacterDOB = $row['charDOB'];
+                    $selectCharacterHairColor = $row['charHairColour'];
+                    $selectCharacterEyeColor = $row['charEyeColour'];
+                    $selectCharacterWeight = $row['charWeight'];
+                    $selectCharacterHeight = $row['charHeight'];
+                    $selectCharacterAddress = $row['charAddress'];
+                    $selectCharacterGender = $row['charGender'];
+                    $selectCharacterRace = $row['charRace'];
+                    $selectCharacterBuild = $row['charBuild'];
+                    $selectCharacterOccupation = $row['charOccupation'];
+                    $selectCharacterSSN = $row['charSSN'];
+                    $selectCharacterCreated = $row['charCreated'];
+
+                    $selectCharacterBloodType = $row['bloodType'];
+                    $selectCharacterAllergies = $row['allergies'];
+                    $selectCharacterEmergencyContact = $row['emergencyContact'];
+                    $selectCharacterMedication = $row['medication'];
+                    $selectCharacterOrganDonor = $row['organDonor'];
+
+                    $selectCharacterDrivers = $row['driversLicense'];
+                    $selectCharacterWeapons = $row['weaponsLicense'];
+                    $selectCharacterHunting = $row['huntingLicense'];
+                    $selectCharacterCommercial = $row['commercialLicense'];
+                    $selectCharacterFishing = $row['fishingLicense'];
+                    $selectCharacterAviation = $row['aviationLicense'];
+                    $selectCharacterBoating = $row['boatingLicense'];
+
+                    echo '<div data-elementor-type="popup" data-elementor-id="14014" class="elementor elementor-14014 elementor-location-popup" data-elementor-settings="{&quot;entrance_animation&quot;:&quot;zoomIn&quot;,&quot;entrance_animation_duration&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:0.15,&quot;sizes&quot;:[]},&quot;prevent_scroll&quot;:&quot;yes&quot;,&quot;avoid_multiple_popups&quot;:&quot;yes&quot;,&quot;exit_animation&quot;:&quot;zoomIn&quot;,&quot;prevent_close_on_background_click&quot;:&quot;yes&quot;,&quot;prevent_close_on_esc_key&quot;:&quot;yes&quot;,&quot;a11y_navigation&quot;:&quot;yes&quot;,&quot;timing&quot;:[]}" data-elementor-post-type="elementor_library">
+                    <div class="elementor-element elementor-element-1e28827 e-flex e-con-boxed e-con" data-id="1e28827" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
+                        <div class="e-con-inner">
+                            <div class="elementor-element elementor-element-59e7f7d e-grid vehicles-active e-con-full e-con" data-id="59e7f7d" data-element_type="container" data-settings="{&quot;grid_columns_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;background_background&quot;:&quot;classic&quot;,&quot;content_width&quot;:&quot;full&quot;,&quot;grid_columns_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_columns_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_rows_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
+                                <div class="elementor-element elementor-element-bb4182f e-grid e-con-boxed e-con" data-id="bb4182f" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;grid_columns_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;content_width&quot;:&quot;boxed&quot;,&quot;grid_outline&quot;:&quot;yes&quot;,&quot;grid_columns_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_columns_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_rows_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
+                                    <div class="e-con-inner">
+                                        <div class="elementor-element elementor-element-d8558da e-flex e-con-boxed e-con" data-id="d8558da" data-element_type="container" data-settings="{&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
+                                            <div class="e-con-inner">
+                                                <div class="elementor-element elementor-element-59e837f elementor-widget elementor-widget-heading" data-id="59e837f" data-element_type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="heading.default">
+                                                    <div class="elementor-widget-container">
+                                                        <h2 class="elementor-heading-title elementor-size-default">Edit Character</h2>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="elementor-element elementor-element-43cfe28 e-flex e-con-boxed e-con e-parent" data-id="43cfe28" data-element_type="container" data-settings="{&quot;container_type&quot;:&quot;flex&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}" data-core-v316-plus="true">
-                                        <div class="e-con-inner">
-                                            <div class="elementor-element elementor-element-4e570a0 form elementor-button-align-stretch elementor-widget elementor-widget-form" data-id="4e570a0" data-element_type="widget" data-settings="{&quot;step_next_label&quot;:&quot;Next&quot;,&quot;step_previous_label&quot;:&quot;Previous&quot;,&quot;button_width&quot;:&quot;100&quot;,&quot;step_type&quot;:&quot;number_text&quot;,&quot;step_icon_shape&quot;:&quot;circle&quot;,&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="form.default">
-                                                <div class="elementor-widget-container">
-                                                    <form class="elementor-form" method="post" id="submitreport" name="create-char" novalidate="">
-                                                        <input type="hidden" name="post_id" value="14014"/>
-                                                        <input type="hidden" name="form_id" value="4e570a0"/>
-                                                        <input type="hidden" name="referer_title" value="c-mdt-civilianSelected"/>
-                                                        <input type="hidden" name="queried_id" value="13542"/>
-                                                        <div class="elementor-form-fields-wrapper elementor-labels-above">
-                                                            <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-name elementor-col-50 elementor-field-required elementor-mark-required">
-                                                                <label for="form-field-name" class="elementor-field-label">Name							</label>
-                                                                <input size="1" type="text" name="form_fields[name]" id="form-field-name" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. Marzus Lowbridge" required="required" aria-required="true">
-                                                            </div>
-                                                            <div class="elementor-field-type-date elementor-field-group elementor-column elementor-field-group-field_70a92ab elementor-col-50 elementor-field-required elementor-mark-required">
-                                                                <label for="form-field-field_70a92ab" class="elementor-field-label">Date of Birth							</label>
-                                                                <input type="date" name="form_fields[field_70a92ab]" id="form-field-field_70a92ab" class="elementor-field elementor-size-sm  elementor-field-textual elementor-date-field elementor-use-native" placeholder="e.g. 28-10-2004" required="required" aria-required="true" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
-                                                            </div>
-                                                            <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_32f4a27 elementor-col-50 elementor-field-required elementor-mark-required">
-                                                                <label for="form-field-field_32f4a27" class="elementor-field-label">Hair Colour							</label>
-                                                                <input size="1" type="text" name="form_fields[field_32f4a27]" id="form-field-field_32f4a27" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. Brown" required="required" aria-required="true">
-                                                            </div>
-                                                            <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_a2a9e85 elementor-col-50 elementor-field-required elementor-mark-required">
-                                                                <label for="form-field-field_a2a9e85" class="elementor-field-label">Eye Colour							</label>
-                                                                <input size="1" type="text" name="form_fields[field_a2a9e85]" id="form-field-field_a2a9e85" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. Brown" required="required" aria-required="true">
-                                                            </div>
-                                                            <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_aeeadb7 elementor-col-50 elementor-field-required elementor-mark-required">
-                                                                <label for="form-field-field_aeeadb7" class="elementor-field-label">Weight (lbs)							</label>
-                                                                <input size="1" type="text" name="form_fields[field_aeeadb7]" id="form-field-field_aeeadb7" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. 120" required="required" aria-required="true">
-                                                            </div>
-                                                            <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_821fc71 elementor-col-50 elementor-field-required elementor-mark-required">
-                                                                <label for="form-field-field_821fc71" class="elementor-field-label">Height (ft)							</label>
-                                                                <input size="1" type="text" name="form_fields[field_821fc71]" id="form-field-field_821fc71" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. 6&#039;2" required="required" aria-required="true">
-                                                            </div>
-                                                            <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_c6f7bb0 elementor-col-50 elementor-field-required elementor-mark-required">
-                                                                <label for="form-field-field_c6f7bb0" class="elementor-field-label">Address							</label>
-                                                                <input size="1" type="text" name="form_fields[field_c6f7bb0]" id="form-field-field_c6f7bb0" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. 2000 Eclipse Avenue" required="required" aria-required="true">
-                                                            </div>
-                                                            <div class="elementor-field-type-select elementor-field-group elementor-column elementor-field-group-field_7ee9071 elementor-col-50 elementor-field-required elementor-mark-required">
-                                                                <label for="form-field-field_7ee9071" class="elementor-field-label">Gender							</label>
-                                                                <div class="elementor-field elementor-select-wrapper remove-before">
-                                                                    <div class="select-caret-down-wrapper">
-                                                                        <svg aria-hidden="true" class="e-font-icon-svg e-eicon-caret-down" viewbox="0 0 571.4 571.4" xmlns="http://www.w3.org/2000/svg">
-                                                                            <path d="M571 393Q571 407 561 418L311 668Q300 679 286 679T261 668L11 418Q0 407 0 393T11 368 36 357H536Q550 357 561 368T571 393Z"></path>
-                                                                        </svg>
+                                        <div class="elementor-element elementor-element-43cfe28 e-flex e-con-boxed e-con" data-id="43cfe28" data-element_type="container" data-settings="{&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
+                                            <div class="e-con-inner">
+                                                <div class="elementor-element elementor-element-4e570a0 form elementor-button-align-stretch elementor-widget elementor-widget-form" data-id="4e570a0" data-element_type="widget" data-settings="{&quot;step_next_label&quot;:&quot;Next&quot;,&quot;step_previous_label&quot;:&quot;Previous&quot;,&quot;button_width&quot;:&quot;100&quot;,&quot;step_type&quot;:&quot;number_text&quot;,&quot;step_icon_shape&quot;:&quot;circle&quot;,&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="form.default">
+                                                    <div class="elementor-widget-container">
+                                                        <form action="" method="post" role="search">
+                                                            <input type="hidden" name="post_id" value="14014"/>
+                                                            <input type="hidden" name="form_id" value="4e570a0"/>
+                                                            <input type="hidden" name="referer_title" value="c-mdt-civilianSelected"/>
+                                                            <input type="hidden" name="queried_id" value="13542"/>
+                                                            <div class="elementor-form-fields-wrapper elementor-labels-above">
+                                                                <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-name elementor-col-50 elementor-field-required elementor-mark-required">
+                                                                    <label for="form-field-name" class="elementor-field-label">Name							</label>
+                                                                    <input disabled value="'.$selectCharacterName.'" size="1" type="text" name="form_fields[name]" id="form-field-name" class="elementor-field elementor-size-sm elementor-field-textual custom-disabled" placeholder="e.g. Marzus Lowbridge" required="required" aria-required="true">
+                                                                </div>
+                                                                <div class="elementor-field-type-date elementor-field-group elementor-column elementor-field-group-field_70a92ab elementor-col-50 elementor-field-required elementor-mark-required">
+                                                                    <label for="form-field-field_70a92ab" class="elementor-field-label">Date of Birth							</label>
+                                                                    <input disabled value="'.$selectCharacterDOB.'" type="date" name="form_fields[field_70a92ab]" id="form-field-field_70a92ab" class=" custom-disabled elementor-field elementor-size-sm  elementor-field-textual elementor-date-field elementor-use-native" placeholder="e.g. 28-10-2004" required="required" aria-required="true" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+                                                                </div>
+                                                                <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_32f4a27 elementor-col-50 elementor-field-required elementor-mark-required">
+                                                                    <label for="form-field-field_32f4a27" class="elementor-field-label">Hair Colour							</label>
+                                                                    <input value="'.$selectCharacterHairColor.'" size="1" type="text" name="form_fields[field_32f4a27]" id="form-field-field_32f4a27" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. Brown" required="required" aria-required="true">
+                                                                </div>
+                                                                <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_a2a9e85 elementor-col-50 elementor-field-required elementor-mark-required">
+                                                                    <label for="form-field-field_a2a9e85" class="elementor-field-label">Eye Colour							</label>
+                                                                    <input value="'.$selectCharacterEyeColor.'" size="1" type="text" name="form_fields[field_a2a9e85]" id="form-field-field_a2a9e85" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. Brown" required="required" aria-required="true">
+                                                                </div>
+                                                                <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_aeeadb7 elementor-col-50 elementor-field-required elementor-mark-required">
+                                                                    <label for="form-field-field_aeeadb7" class="elementor-field-label">Weight (lbs)							</label>
+                                                                    <input value="'.$selectCharacterWeight.'" size="1" type="text" name="form_fields[field_aeeadb7]" id="form-field-field_aeeadb7" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. 120" required="required" aria-required="true">
+                                                                </div>
+                                                                <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_821fc71 elementor-col-50 elementor-field-required elementor-mark-required">
+                                                                    <label for="form-field-field_821fc71" class="elementor-field-label">Height (ft)							</label>
+                                                                    <input value="'.$selectCharacterHeight.'" size="1" type="text" name="form_fields[field_821fc71]" id="form-field-field_821fc71" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. 6&#039;2" required="required" aria-required="true">
+                                                                </div>
+                                                                <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_c6f7bb0 elementor-col-50 elementor-field-required elementor-mark-required">
+                                                                    <label for="form-field-field_c6f7bb0" class="elementor-field-label">Address							</label>
+                                                                    <input value="'.$selectCharacterAddress.'" size="1" type="text" name="form_fields[field_c6f7bb0]" id="form-field-field_c6f7bb0" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. 2000 Eclipse Avenue" required="required" aria-required="true">
+                                                                </div>
+                                                                <div class="elementor-field-type-select elementor-field-group elementor-column elementor-field-group-field_7ee9071 elementor-col-50 elementor-field-required elementor-mark-required">
+                                                                    <label for="form-field-field_7ee9071" class="elementor-field-label">Gender							</label>
+                                                                    <div class="elementor-field elementor-select-wrapper remove-before">
+                                                                        <div class="select-caret-down-wrapper">
+                                                                            <svg aria-hidden="true" class="e-font-icon-svg e-eicon-caret-down" viewbox="0 0 571.4 571.4" xmlns="http://www.w3.org/2000/svg">
+                                                                                <path d="M571 393Q571 407 561 418L311 668Q300 679 286 679T261 668L11 418Q0 407 0 393T11 368 36 357H536Q550 357 561 368T571 393Z"></path>
+                                                                            </svg>
+                                                                        </div>
+                                                                        <select value="'.$selectCharacterGender.'" name="form_fields[field_7ee9071]" id="form-field-field_7ee9071" class="elementor-field-textual elementor-size-sm" required="required" aria-required="true">
+                                                                            <option value="Male">Male</option>
+                                                                            <option value="Female">Female</option>
+                                                                            <option value="Other">Other</option>
+                                                                        </select>
                                                                     </div>
-                                                                    <select name="form_fields[field_7ee9071]" id="form-field-field_7ee9071" class="elementor-field-textual elementor-size-sm" required="required" aria-required="true">
-                                                                        <option value="Male">Male</option>
-                                                                        <option value="Female">Female</option>
-                                                                        <option value="Other">Other</option>
-                                                                    </select>
+                                                                </div>
+                                                                <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_1bd7354 elementor-col-50 elementor-field-required elementor-mark-required">
+                                                                    <label for="form-field-field_1bd7354" class="elementor-field-label">Race							</label>
+                                                                    <input disabled value="'.$selectCharacterRace.'" size="1" type="text" name="form_fields[field_1bd7354]" id="form-field-field_1bd7354" class=" custom-disabled elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. White, Asian, Black" required="required" aria-required="true">
+                                                                </div>
+                                                                <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_a8f6259 elementor-col-50 elementor-field-required elementor-mark-required">
+                                                                    <label for="form-field-field_a8f6259" class="elementor-field-label">Build							</label>
+                                                                    <input value="'.$selectCharacterBuild.'" size="1" type="text" name="form_fields[field_a8f6259]" id="form-field-field_a8f6259" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. Averarge, Slim, Muscular, Fit, Overweight" required="required" aria-required="true">
+                                                                </div>
+                                                                <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_5723783 elementor-col-100 elementor-field-required elementor-mark-required">
+                                                                    <label for="form-field-field_5723783" class="elementor-field-label">Occupation							</label>
+                                                                    <input value="'.$selectCharacterOccupation.'" size="1" type="text" name="form_fields[field_5723783]" id="form-field-field_5723783" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. Unemployed, Self-Employed" required="required" aria-required="true">
+                                                                </div>
+                                                                <div class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons">
+                                                                    <button style="box-shadow: none !important; text-transform: none;" name="updatecharacter" type="submit" class="elementor-button elementor-size-sm">
+                                                                        <span>
+                                                                            <span class="elementor-button-icon"></span>
+                                                                            <span class="elementor-button-text">Update Character</span>
+                                                                        </span>
+                                                                    </button>
                                                                 </div>
                                                             </div>
-                                                            <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_1bd7354 elementor-col-50 elementor-field-required elementor-mark-required">
-                                                                <label for="form-field-field_1bd7354" class="elementor-field-label">Race							</label>
-                                                                <input size="1" type="text" name="form_fields[field_1bd7354]" id="form-field-field_1bd7354" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. White, Asian, Black" required="required" aria-required="true">
-                                                            </div>
-                                                            <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_a8f6259 elementor-col-50 elementor-field-required elementor-mark-required">
-                                                                <label for="form-field-field_a8f6259" class="elementor-field-label">Build							</label>
-                                                                <input size="1" type="text" name="form_fields[field_a8f6259]" id="form-field-field_a8f6259" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. Averarge, Slim, Muscular, Fit, Overweight" required="required" aria-required="true">
-                                                            </div>
-                                                            <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_5723783 elementor-col-100 elementor-field-required elementor-mark-required">
-                                                                <label for="form-field-field_5723783" class="elementor-field-label">Occupation							</label>
-                                                                <input size="1" type="text" name="form_fields[field_5723783]" id="form-field-field_5723783" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. Unemployed, Self-Employed" required="required" aria-required="true">
-                                                            </div>
-                                                            <div class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons">
-                                                                <button type="submit" class="elementor-button elementor-size-sm">
-                                                                    <span>
-                                                                        <span class="elementor-button-icon"></span>
-                                                                        <span class="elementor-button-text">Update Character</span>
-                                                                    </span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -2096,81 +2156,282 @@ if (isset($_COOKIE['discord_access_token'])) {
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div data-elementor-type="popup" data-elementor-id="14052" class="elementor elementor-14052 elementor-location-popup" data-elementor-settings="{&quot;entrance_animation&quot;:&quot;zoomIn&quot;,&quot;entrance_animation_duration&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:0.15,&quot;sizes&quot;:[]},&quot;prevent_scroll&quot;:&quot;yes&quot;,&quot;avoid_multiple_popups&quot;:&quot;yes&quot;,&quot;exit_animation&quot;:&quot;zoomIn&quot;,&quot;prevent_close_on_background_click&quot;:&quot;yes&quot;,&quot;prevent_close_on_esc_key&quot;:&quot;yes&quot;,&quot;a11y_navigation&quot;:&quot;yes&quot;,&quot;timing&quot;:[]}" data-elementor-post-type="elementor_library">
-            <div class="elementor-section-wrap">
-                <div class="elementor-element elementor-element-1e28827 e-flex e-con-boxed e-con e-parent" data-id="1e28827" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;container_type&quot;:&quot;flex&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}" data-core-v316-plus="true">
-                    <div class="e-con-inner">
-                        <div class="elementor-element elementor-element-59e7f7d e-grid vehicles-active e-con-full e-con e-parent" data-id="59e7f7d" data-element_type="container" data-settings="{&quot;container_type&quot;:&quot;grid&quot;,&quot;grid_columns_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;background_background&quot;:&quot;classic&quot;,&quot;content_width&quot;:&quot;full&quot;,&quot;grid_columns_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_columns_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_rows_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_auto_flow&quot;:&quot;row&quot;,&quot;grid_auto_flow_tablet&quot;:&quot;row&quot;,&quot;grid_auto_flow_mobile&quot;:&quot;row&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}" data-core-v316-plus="true">
-                            <div class="elementor-element elementor-element-bb4182f e-grid e-con-boxed e-con e-parent" data-id="bb4182f" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;container_type&quot;:&quot;grid&quot;,&quot;grid_columns_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;content_width&quot;:&quot;boxed&quot;,&quot;grid_outline&quot;:&quot;yes&quot;,&quot;grid_columns_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_columns_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_rows_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_auto_flow&quot;:&quot;row&quot;,&quot;grid_auto_flow_tablet&quot;:&quot;row&quot;,&quot;grid_auto_flow_mobile&quot;:&quot;row&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}" data-core-v316-plus="true">
-                                <div class="e-con-inner">
-                                    <div class="elementor-element elementor-element-d8558da e-flex e-con-boxed e-con e-parent" data-id="d8558da" data-element_type="container" data-settings="{&quot;container_type&quot;:&quot;flex&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}" data-core-v316-plus="true">
-                                        <div class="e-con-inner">
-                                            <div class="elementor-element elementor-element-59e837f elementor-widget elementor-widget-heading" data-id="59e837f" data-element_type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="heading.default">
-                                                <div class="elementor-widget-container">
-                                                    <h2 class="elementor-heading-title elementor-size-default">Edit Licenses</h2>
+                </div>';
+
+                        }
+                    }
+                }
+            }
+            ?>
+
+            <style>
+            .custom-disabled {
+            cursor: not-allowed;
+            color: red;
+            }
+            </style>
+
+            <?php
+            session_start(); // Start the session
+
+            if (isset($_POST["updatecharacter"])) {
+                if (isset($_GET['selectedChar'])) {
+                    $selectedCharID = $_GET['selectedChar'];
+
+                    // Gather form input
+                    $characterHairColor = isset($_POST["form_fields"]["field_32f4a27"]) ? $_POST["form_fields"]["field_32f4a27"] : '';
+                    $characterEyeColor = isset($_POST["form_fields"]["field_a2a9e85"]) ? $_POST["form_fields"]["field_a2a9e85"] : '';
+                    $characterWeight = isset($_POST["form_fields"]["field_aeeadb7"]) ? $_POST["form_fields"]["field_aeeadb7"] : '';
+                    $characterHeight = isset($_POST["form_fields"]["field_821fc71"]) ? $_POST["form_fields"]["field_821fc71"] : '';
+                    $characterAddress = isset($_POST["form_fields"]["field_c6f7bb0"]) ? $_POST["form_fields"]["field_c6f7bb0"] : '';
+                    $characterBuild = isset($_POST["form_fields"]["field_a8f6259"]) ? $_POST["form_fields"]["field_a8f6259"] : '';
+                    $characterOccupation = isset($_POST["form_fields"]["field_5723783"]) ? $_POST["form_fields"]["field_5723783"] : '';
+
+                    // Check if the new input is the same as existing data
+                    $check_sql = "SELECT charHairColour, charEyeColour, charWeight, charHeight, charAddress, charBuild, charOccupation FROM civCharacters WHERE charID=?";
+                    $check_stmt = mysqli_prepare($conn, $check_sql);
+                    mysqli_stmt_bind_param($check_stmt, "i", $selectedCharID);
+                    mysqli_stmt_execute($check_stmt);
+                    mysqli_stmt_store_result($check_stmt);
+                    mysqli_stmt_bind_result($check_stmt, $existingHairColor, $existingEyeColour, $existingWeight, $existingHeight, $existingAddress, $existingBuild, $existingOccupation);
+
+                    mysqli_stmt_fetch($check_stmt);
+
+                    mysqli_stmt_close($check_stmt);
+
+                    // Check if the new input is different from existing data
+                    if ($characterHairColor === $existingHairColor && 
+                        $characterEyeColor === $existingEyeColour && 
+                        $characterWeight === $existingWeight && 
+                        $characterHeight === $existingHeight && 
+                        $characterAddress === $existingAddress && 
+                        $characterBuild === $existingBuild && 
+                        $characterOccupation === $existingOccupation) {
+                        //echo 'Character information unchanged.';
+                    } else {
+                        // Prepare and execute the SQL UPDATE query
+                        $update_sql = "UPDATE civCharacters SET charHairColour=?, charEyeColour=?, charWeight=?, charHeight=?, charAddress=?, charBuild=?, charOccupation=? WHERE charID=?";
+                        $stmt = mysqli_prepare($conn, $update_sql);
+                        mysqli_stmt_bind_param($stmt, "sssssssi", $characterHairColor, $characterEyeColor, $characterWeight, $characterHeight, $characterAddress, $characterBuild, $characterOccupation, $selectedCharID);
+
+                        if (mysqli_stmt_execute($stmt)) {
+                            echo '<script type="text/javascript">setTimeout(function(){ location.reload(true); }, 100);</script>';
+                            header('Location: mdtCivilianSelected.php');
+                            exit();
+                        } else {
+                            echo "Error updating character information: " . mysqli_error($conn);
+                        }
+
+                        mysqli_stmt_close($stmt);
+                    }
+                }
+            }
+            ?>
+        <?php
+            session_start();
+
+            // Check if the selectedChar parameter is present in the URL
+            if (isset($_GET['selectedChar'])) {
+            $selectedCharID = $_GET['selectedChar'];
+
+            $query = "SELECT * FROM civCharacters WHERE charID = $selectedCharID AND charOwner = $userid";
+            $result = mysqli_query($conn, $query);
+
+            if ($result) {
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $selectCharacterName = $row['charName'];
+                    $selectCharacterID = $row['charID'];
+                    $selectCharacterDOB = $row['charDOB'];
+                    $selectCharacterHairColor = $row['charHairColour'];
+                    $selectCharacterEyeColor = $row['charEyeColour'];
+                    $selectCharacterWeight = $row['charWeight'];
+                    $selectCharacterHeight = $row['charHeight'];
+                    $selectCharacterAddress = $row['charAddress'];
+                    $selectCharacterGender = $row['charGender'];
+                    $selectCharacterRace = $row['charRace'];
+                    $selectCharacterBuild = $row['charBuild'];
+                    $selectCharacterOccupation = $row['charOccupation'];
+                    $selectCharacterSSN = $row['charSSN'];
+                    $selectCharacterCreated = $row['charCreated'];
+
+                    $selectCharacterBloodType = $row['bloodType'];
+                    $selectCharacterAllergies = $row['allergies'];
+                    $selectCharacterEmergencyContact = $row['emergencyContact'];
+                    $selectCharacterMedication = $row['medication'];
+                    $selectCharacterOrganDonor = $row['organDonor'];
+
+                    $selectCharacterDrivers = $row['driversLicense'];
+                    $selectCharacterWeapons = $row['weaponsLicense'];
+                    $selectCharacterHunting = $row['huntingLicense'];
+                    $selectCharacterCommercial = $row['commercialLicense'];
+                    $selectCharacterFishing = $row['fishingLicense'];
+                    $selectCharacterAviation = $row['aviationLicense'];
+                    $selectCharacterBoating = $row['boatingLicense'];
+
+                    echo '<div data-elementor-type="popup" data-elementor-id="14052" class="elementor elementor-14052 elementor-location-popup" data-elementor-settings="{&quot;entrance_animation&quot;:&quot;zoomIn&quot;,&quot;entrance_animation_duration&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:0.15,&quot;sizes&quot;:[]},&quot;prevent_scroll&quot;:&quot;yes&quot;,&quot;avoid_multiple_popups&quot;:&quot;yes&quot;,&quot;exit_animation&quot;:&quot;zoomIn&quot;,&quot;prevent_close_on_background_click&quot;:&quot;yes&quot;,&quot;prevent_close_on_esc_key&quot;:&quot;yes&quot;,&quot;a11y_navigation&quot;:&quot;yes&quot;,&quot;timing&quot;:[]}" data-elementor-post-type="elementor_library">
+                    <div class="elementor-element elementor-element-1e28827 e-flex e-con-boxed e-con" data-id="1e28827" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
+                        <div class="e-con-inner">
+                            <div class="elementor-element elementor-element-59e7f7d e-grid vehicles-active e-con-full e-con" data-id="59e7f7d" data-element_type="container" data-settings="{&quot;grid_columns_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;background_background&quot;:&quot;classic&quot;,&quot;content_width&quot;:&quot;full&quot;,&quot;grid_columns_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_columns_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_rows_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
+                                <div class="elementor-element elementor-element-bb4182f e-grid e-con-boxed e-con" data-id="bb4182f" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;grid_columns_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;content_width&quot;:&quot;boxed&quot;,&quot;grid_outline&quot;:&quot;yes&quot;,&quot;grid_columns_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_columns_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_rows_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
+                                    <div class="e-con-inner">
+                                        <div class="elementor-element elementor-element-d8558da e-flex e-con-boxed e-con" data-id="d8558da" data-element_type="container" data-settings="{&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
+                                            <div class="e-con-inner">
+                                                <div class="elementor-element elementor-element-59e837f elementor-widget elementor-widget-heading" data-id="59e837f" data-element_type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="heading.default">
+                                                    <div class="elementor-widget-container">
+                                                        <h2 class="elementor-heading-title elementor-size-default">Edit Licenses</h2>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="elementor-element elementor-element-43cfe28 e-flex e-con-boxed e-con e-parent" data-id="43cfe28" data-element_type="container" data-settings="{&quot;container_type&quot;:&quot;flex&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}" data-core-v316-plus="true">
-                                        <div class="e-con-inner">
-                                            <div class="elementor-element elementor-element-4e570a0 form elementor-button-align-stretch elementor-widget elementor-widget-form" data-id="4e570a0" data-element_type="widget" data-settings="{&quot;step_next_label&quot;:&quot;Next&quot;,&quot;step_previous_label&quot;:&quot;Previous&quot;,&quot;button_width&quot;:&quot;100&quot;,&quot;step_type&quot;:&quot;number_text&quot;,&quot;step_icon_shape&quot;:&quot;circle&quot;,&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="form.default">
-                                                <div class="elementor-widget-container">
-                                                    <form class="elementor-form" method="post" id="submitreport" name="edit-license" novalidate="">
-                                                        <input type="hidden" name="post_id" value="14052"/>
-                                                        <input type="hidden" name="form_id" value="4e570a0"/>
-                                                        <input type="hidden" name="referer_title" value="c-mdt-civilianSelected"/>
-                                                        <input type="hidden" name="queried_id" value="13542"/>
-                                                        <div class="elementor-form-fields-wrapper elementor-labels-above">
-                                                            <div class="elementor-field-type-select elementor-field-group elementor-column elementor-field-group-name elementor-col-100 elementor-field-required">
-                                                                <label for="form-field-name" class="elementor-field-label">License Type							</label>
-                                                                <div class="elementor-field elementor-select-wrapper remove-before">
-                                                                    <div class="select-caret-down-wrapper">
-                                                                        <svg aria-hidden="true" class="e-font-icon-svg e-eicon-caret-down" viewbox="0 0 571.4 571.4" xmlns="http://www.w3.org/2000/svg">
-                                                                            <path d="M571 393Q571 407 561 418L311 668Q300 679 286 679T261 668L11 418Q0 407 0 393T11 368 36 357H536Q550 357 561 368T571 393Z"></path>
-                                                                        </svg>
-                                                                    </div>
-                                                                    <select name="form_fields[name]" id="form-field-name" class="elementor-field-textual elementor-size-sm" required="required" aria-required="true">
-                                                                        <option value="Drivers License">Drivers License</option>
-                                                                        <option value="Weapons License">Weapons License</option>
-                                                                        <option value="Commercial License">Commercial License</option>
-                                                                        <option value="Hunting License">Hunting License</option>
-                                                                        <option value="Fishing License">Fishing License</option>
-                                                                        <option value="Aviation License">Aviation License</option>
-                                                                        <option value="Boating License">Boating License</option>
-                                                                    </select>
+                                        <div class="elementor-element elementor-element-43cfe28 e-flex e-con-boxed e-con" data-id="43cfe28" data-element_type="container" data-settings="{&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
+                                            <div class="e-con-inner">
+                                                <div class="elementor-element elementor-element-4e570a0 form elementor-button-align-stretch elementor-widget elementor-widget-form" data-id="4e570a0" data-element_type="widget" data-settings="{&quot;step_next_label&quot;:&quot;Next&quot;,&quot;step_previous_label&quot;:&quot;Previous&quot;,&quot;button_width&quot;:&quot;100&quot;,&quot;step_type&quot;:&quot;number_text&quot;,&quot;step_icon_shape&quot;:&quot;circle&quot;,&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="form.default">
+                                                    <div class="elementor-widget-container">
+                                                        <form action="" method="post" role="search">
+                                                            <input type="hidden" name="post_id" value="14052"/>
+                                                            <input type="hidden" name="form_id" value="4e570a0"/>
+                                                            <input type="hidden" name="referer_title" value="c-mdt-civilianSelected"/>
+                                                            <input type="hidden" name="queried_id" value="13542"/>
+                                                            <div class="elementor-form-fields-wrapper elementor-labels-above">
+                                                                
+                                                                <div class="elementor-field-type-select elementor-field-group elementor-column elementor-field-group-name elementor-col-50 elementor-field-required">
+                                                                    <label for="form-field-name" class="elementor-field-label">Drivers License</label>
+                                                                    <div class="elementor-field elementor-select-wrapper remove-before">
+                                                                        <div class="select-caret-down-wrapper">
+                                                                            <svg aria-hidden="true" class="e-font-icon-svg e-eicon-caret-down" viewbox="0 0 571.4 571.4" xmlns="http://www.w3.org/2000/svg">
+                                                                                <path d="M571 393Q571 407 561 418L311 668Q300 679 286 679T261 668L11 418Q0 407 0 393T11 368 36 357H536Q550 357 561 368T571 393Z"></path>
+                                                                            </svg>
+                                                                        </div>';
+                                                                        echo '<select name="form_fields[drivers]" id="form-field-drivers" class="elementor-field-textual elementor-size-sm" required="required" aria-required="true">' .
+                                                                            '<option value="Unobtained" ' . ($selectCharacterDrivers == 'Unobtained' ? 'selected' : '') . '>Unobtained</option>' .
+                                                                            '<option value="Valid" ' . ($selectCharacterDrivers == 'Valid' ? 'selected' : '') . '>Valid</option>' .
+                                                                            '<option value="Invalid" ' . ($selectCharacterDrivers == 'Invalid' ? 'selected' : '') . '>Invalid</option>' .
+                                                                            '<option value="Suspended" ' . ($selectCharacterDrivers == 'Suspended' ? 'selected' : '') . '>Suspended</option>' .
+                                                                            '<option value="Revoked" ' . ($selectCharacterDrivers == 'Revoked' ? 'selected' : '') . '>Revoked</option>' .
+                                                                        '</select>';
+                                                                    echo '</div>
+                                                                </div>
+
+                                                                <div class="elementor-field-type-select elementor-field-group elementor-column elementor-field-group-name elementor-col-50 elementor-field-required">
+                                                                    <label for="form-field-name" class="elementor-field-label">Weapons License</label>
+                                                                    <div class="elementor-field elementor-select-wrapper remove-before">
+                                                                        <div class="select-caret-down-wrapper">
+                                                                            <svg aria-hidden="true" class="e-font-icon-svg e-eicon-caret-down" viewbox="0 0 571.4 571.4" xmlns="http://www.w3.org/2000/svg">
+                                                                                <path d="M571 393Q571 407 561 418L311 668Q300 679 286 679T261 668L11 418Q0 407 0 393T11 368 36 357H536Q550 357 561 368T571 393Z"></path>
+                                                                            </svg>
+                                                                            </div>';
+                                                                            echo '<select name="form_fields[weapons]" id="form-field-weapons" class="elementor-field-textual elementor-size-sm" required="required" aria-required="true">' .
+                                                                                '<option value="Unobtained" ' . ($selectCharacterWeapons == 'Unobtained' ? 'selected' : '') . '>Unobtained</option>' .
+                                                                                '<option value="Valid" ' . ($selectCharacterWeapons == 'Valid' ? 'selected' : '') . '>Valid</option>' .
+                                                                                '<option value="Invalid" ' . ($selectCharacterWeapons == 'Invalid' ? 'selected' : '') . '>Invalid</option>' .
+                                                                                '<option value="Suspended" ' . ($selectCharacterWeapons == 'Suspended' ? 'selected' : '') . '>Suspended</option>' .
+                                                                                '<option value="Revoked" ' . ($selectCharacterWeapons == 'Revoked' ? 'selected' : '') . '>Revoked</option>' .
+                                                                            '</select>';
+                                                                        echo '</div>
+                                                                </div>
+
+                                                                <div class="elementor-field-type-select elementor-field-group elementor-column elementor-field-group-name elementor-col-50 elementor-field-required">
+                                                                    <label for="form-field-name" class="elementor-field-label">Commercial License</label>
+                                                                    <div class="elementor-field elementor-select-wrapper remove-before">
+                                                                        <div class="select-caret-down-wrapper">
+                                                                            <svg aria-hidden="true" class="e-font-icon-svg e-eicon-caret-down" viewbox="0 0 571.4 571.4" xmlns="http://www.w3.org/2000/svg">
+                                                                                <path d="M571 393Q571 407 561 418L311 668Q300 679 286 679T261 668L11 418Q0 407 0 393T11 368 36 357H536Q550 357 561 368T571 393Z"></path>
+                                                                            </svg>
+                                                                            </div>';
+                                                                            echo '<select name="form_fields[commercial]" id="form-field-commercial" class="elementor-field-textual elementor-size-sm" required="required" aria-required="true">' .
+                                                                                '<option value="Unobtained" ' . ($selectCharacterCommercial == 'Unobtained' ? 'selected' : '') . '>Unobtained</option>' .
+                                                                                '<option value="Valid" ' . ($selectCharacterCommercial == 'Valid' ? 'selected' : '') . '>Valid</option>' .
+                                                                                '<option value="Invalid" ' . ($selectCharacterCommercial == 'Invalid' ? 'selected' : '') . '>Invalid</option>' .
+                                                                                '<option value="Suspended" ' . ($selectCharacterCommercial == 'Suspended' ? 'selected' : '') . '>Suspended</option>' .
+                                                                                '<option value="Revoked" ' . ($selectCharacterCommercial == 'Revoked' ? 'selected' : '') . '>Revoked</option>' .
+                                                                            '</select>';
+                                                                        echo '</div>
+                                                                </div>
+
+                                                                <div class="elementor-field-type-select elementor-field-group elementor-column elementor-field-group-name elementor-col-50 elementor-field-required">
+                                                                    <label for="form-field-name" class="elementor-field-label">Hunting License</label>
+                                                                    <div class="elementor-field elementor-select-wrapper remove-before">
+                                                                        <div class="select-caret-down-wrapper">
+                                                                            <svg aria-hidden="true" class="e-font-icon-svg e-eicon-caret-down" viewbox="0 0 571.4 571.4" xmlns="http://www.w3.org/2000/svg">
+                                                                                <path d="M571 393Q571 407 561 418L311 668Q300 679 286 679T261 668L11 418Q0 407 0 393T11 368 36 357H536Q550 357 561 368T571 393Z"></path>
+                                                                            </svg>
+                                                                            </div>';
+                                                                            echo '<select name="form_fields[hunting]" id="form-field-hunting" class="elementor-field-textual elementor-size-sm" required="required" aria-required="true">' .
+                                                                                '<option value="Unobtained" ' . ($selectCharacterHunting == 'Unobtained' ? 'selected' : '') . '>Unobtained</option>' .
+                                                                                '<option value="Valid" ' . ($selectCharacterHunting == 'Valid' ? 'selected' : '') . '>Valid</option>' .
+                                                                                '<option value="Invalid" ' . ($selectCharacterHunting == 'Invalid' ? 'selected' : '') . '>Invalid</option>' .
+                                                                                '<option value="Suspended" ' . ($selectCharacterHunting == 'Suspended' ? 'selected' : '') . '>Suspended</option>' .
+                                                                                '<option value="Revoked" ' . ($selectCharacterHunting == 'Revoked' ? 'selected' : '') . '>Revoked</option>' .
+                                                                            '</select>';
+                                                                        echo '</div>
+                                                                </div>
+
+                                                                <div class="elementor-field-type-select elementor-field-group elementor-column elementor-field-group-name elementor-col-50 elementor-field-required">
+                                                                    <label for="form-field-name" class="elementor-field-label">Fishing License</label>
+                                                                    <div class="elementor-field elementor-select-wrapper remove-before">
+                                                                        <div class="select-caret-down-wrapper">
+                                                                            <svg aria-hidden="true" class="e-font-icon-svg e-eicon-caret-down" viewbox="0 0 571.4 571.4" xmlns="http://www.w3.org/2000/svg">
+                                                                                <path d="M571 393Q571 407 561 418L311 668Q300 679 286 679T261 668L11 418Q0 407 0 393T11 368 36 357H536Q550 357 561 368T571 393Z"></path>
+                                                                            </svg>
+                                                                            </div>';
+                                                                            echo '<select name="form_fields[fishing]" id="form-field-fishing" class="elementor-field-textual elementor-size-sm" required="required" aria-required="true">' .
+                                                                                '<option value="Unobtained" ' . ($selectCharacterFishing == 'Unobtained' ? 'selected' : '') . '>Unobtained</option>' .
+                                                                                '<option value="Valid" ' . ($selectCharacterFishing == 'Valid' ? 'selected' : '') . '>Valid</option>' .
+                                                                                '<option value="Invalid" ' . ($selectCharacterFishing == 'Invalid' ? 'selected' : '') . '>Invalid</option>' .
+                                                                                '<option value="Suspended" ' . ($selectCharacterFishing == 'Suspended' ? 'selected' : '') . '>Suspended</option>' .
+                                                                                '<option value="Revoked" ' . ($selectCharacterFishing == 'Revoked' ? 'selected' : '') . '>Revoked</option>' .
+                                                                            '</select>';
+                                                                        echo '</div>
+                                                                </div>
+
+                                                                <div class="elementor-field-type-select elementor-field-group elementor-column elementor-field-group-name elementor-col-50 elementor-field-required">
+                                                                    <label for="form-field-name" class="elementor-field-label">Aviation License</label>
+                                                                    <div class="elementor-field elementor-select-wrapper remove-before">
+                                                                        <div class="select-caret-down-wrapper">
+                                                                            <svg aria-hidden="true" class="e-font-icon-svg e-eicon-caret-down" viewbox="0 0 571.4 571.4" xmlns="http://www.w3.org/2000/svg">
+                                                                                <path d="M571 393Q571 407 561 418L311 668Q300 679 286 679T261 668L11 418Q0 407 0 393T11 368 36 357H536Q550 357 561 368T571 393Z"></path>
+                                                                            </svg>
+                                                                            </div>';
+                                                                            echo '<select name="form_fields[aviation]" id="form-field-aviation" class="elementor-field-textual elementor-size-sm" required="required" aria-required="true">' .
+                                                                                '<option value="Unobtained" ' . ($selectCharacterAviation == 'Unobtained' ? 'selected' : '') . '>Unobtained</option>' .
+                                                                                '<option value="Valid" ' . ($selectCharacterAviation == 'Valid' ? 'selected' : '') . '>Valid</option>' .
+                                                                                '<option value="Invalid" ' . ($selectCharacterAviation == 'Invalid' ? 'selected' : '') . '>Invalid</option>' .
+                                                                                '<option value="Suspended" ' . ($selectCharacterAviation == 'Suspended' ? 'selected' : '') . '>Suspended</option>' .
+                                                                                '<option value="Revoked" ' . ($selectCharacterAviation == 'Revoked' ? 'selected' : '') . '>Revoked</option>' .
+                                                                            '</select>';
+                                                                        echo '</div>
+                                                                </div>
+
+                                                                <div class="elementor-field-type-select elementor-field-group elementor-column elementor-field-group-name elementor-col-100 elementor-field-required">
+                                                                    <label for="form-field-name" class="elementor-field-label">Boating License</label>
+                                                                    <div class="elementor-field elementor-select-wrapper remove-before">
+                                                                        <div class="select-caret-down-wrapper">
+                                                                            <svg aria-hidden="true" class="e-font-icon-svg e-eicon-caret-down" viewbox="0 0 571.4 571.4" xmlns="http://www.w3.org/2000/svg">
+                                                                                <path d="M571 393Q571 407 561 418L311 668Q300 679 286 679T261 668L11 418Q0 407 0 393T11 368 36 357H536Q550 357 561 368T571 393Z"></path>
+                                                                            </svg>
+                                                                            </div>';
+                                                                            echo '<select name="form_fields[boating]" id="form-field-boating" class="elementor-field-textual elementor-size-sm" required="required" aria-required="true">' .
+                                                                                '<option value="Unobtained" ' . ($selectCharacterBoating == 'Unobtained' ? 'selected' : '') . '>Unobtained</option>' .
+                                                                                '<option value="Valid" ' . ($selectCharacterBoating == 'Valid' ? 'selected' : '') . '>Valid</option>' .
+                                                                                '<option value="Invalid" ' . ($selectCharacterBoating == 'Invalid' ? 'selected' : '') . '>Invalid</option>' .
+                                                                                '<option value="Suspended" ' . ($selectCharacterBoating == 'Suspended' ? 'selected' : '') . '>Suspended</option>' .
+                                                                                '<option value="Revoked" ' . ($selectCharacterBoating == 'Revoked' ? 'selected' : '') . '>Revoked</option>' .
+                                                                            '</select>';
+                                                                        echo '</div>
+                                                                </div>
+
+                                                                <div class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons">
+                                                                    <button style="box-shadow: none !important; text-transform: none;" name="updatelicenses" type="submit" class="elementor-button elementor-size-sm">
+                                                                        <span>
+                                                                            <span class="elementor-button-icon"></span>
+                                                                            <span class="elementor-button-text">Update Licenses</span>
+                                                                        </span>
+                                                                    </button>
                                                                 </div>
                                                             </div>
-                                                            <div class="elementor-field-type-select elementor-field-group elementor-column elementor-field-group-field_70a92ab elementor-col-100 elementor-field-required">
-                                                                <label for="form-field-field_70a92ab" class="elementor-field-label">License Status							</label>
-                                                                <div class="elementor-field elementor-select-wrapper remove-before">
-                                                                    <div class="select-caret-down-wrapper">
-                                                                        <svg aria-hidden="true" class="e-font-icon-svg e-eicon-caret-down" viewbox="0 0 571.4 571.4" xmlns="http://www.w3.org/2000/svg">
-                                                                            <path d="M571 393Q571 407 561 418L311 668Q300 679 286 679T261 668L11 418Q0 407 0 393T11 368 36 357H536Q550 357 561 368T571 393Z"></path>
-                                                                        </svg>
-                                                                    </div>
-                                                                    <select name="form_fields[field_70a92ab]" id="form-field-field_70a92ab" class="elementor-field-textual elementor-size-sm" required="required" aria-required="true">
-                                                                        <option value="Unobtained">Unobtained</option>
-                                                                        <option value="Valid">Valid</option>
-                                                                        <option value="Invalid">Invalid</option>
-                                                                        <option value="Suspended">Suspended</option>
-                                                                        <option value="Revoked">Revoked</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons">
-                                                                <button type="submit" class="elementor-button elementor-size-sm">
-                                                                    <span>
-                                                                        <span class="elementor-button-icon"></span>
-                                                                        <span class="elementor-button-text">Update License</span>
-                                                                    </span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -2179,91 +2440,233 @@ if (isset($_COOKIE['discord_access_token'])) {
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div data-elementor-type="popup" data-elementor-id="14063" class="elementor elementor-14063 elementor-location-popup" data-elementor-settings="{&quot;entrance_animation&quot;:&quot;zoomIn&quot;,&quot;entrance_animation_duration&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:0.15,&quot;sizes&quot;:[]},&quot;prevent_scroll&quot;:&quot;yes&quot;,&quot;avoid_multiple_popups&quot;:&quot;yes&quot;,&quot;exit_animation&quot;:&quot;zoomIn&quot;,&quot;prevent_close_on_background_click&quot;:&quot;yes&quot;,&quot;prevent_close_on_esc_key&quot;:&quot;yes&quot;,&quot;a11y_navigation&quot;:&quot;yes&quot;,&quot;timing&quot;:[]}" data-elementor-post-type="elementor_library">
-            <div class="elementor-section-wrap">
-                <div class="elementor-element elementor-element-1e28827 e-flex e-con-boxed e-con e-parent" data-id="1e28827" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;container_type&quot;:&quot;flex&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}" data-core-v316-plus="true">
-                    <div class="e-con-inner">
-                        <div class="elementor-element elementor-element-59e7f7d e-grid vehicles-active e-con-full e-con e-parent" data-id="59e7f7d" data-element_type="container" data-settings="{&quot;container_type&quot;:&quot;grid&quot;,&quot;grid_columns_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;background_background&quot;:&quot;classic&quot;,&quot;content_width&quot;:&quot;full&quot;,&quot;grid_columns_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_columns_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_rows_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_auto_flow&quot;:&quot;row&quot;,&quot;grid_auto_flow_tablet&quot;:&quot;row&quot;,&quot;grid_auto_flow_mobile&quot;:&quot;row&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}" data-core-v316-plus="true">
-                            <div class="elementor-element elementor-element-bb4182f e-grid e-con-boxed e-con e-parent" data-id="bb4182f" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;container_type&quot;:&quot;grid&quot;,&quot;grid_columns_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;content_width&quot;:&quot;boxed&quot;,&quot;grid_outline&quot;:&quot;yes&quot;,&quot;grid_columns_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_columns_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_rows_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_auto_flow&quot;:&quot;row&quot;,&quot;grid_auto_flow_tablet&quot;:&quot;row&quot;,&quot;grid_auto_flow_mobile&quot;:&quot;row&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}" data-core-v316-plus="true">
-                                <div class="e-con-inner">
-                                    <div class="elementor-element elementor-element-d8558da e-flex e-con-boxed e-con e-parent" data-id="d8558da" data-element_type="container" data-settings="{&quot;container_type&quot;:&quot;flex&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}" data-core-v316-plus="true">
+                </div>';
+
+                        }
+                    }
+                }
+            }
+        ?>
+
+<?php
+if (isset($_POST["updatelicenses"])) {
+    if (isset($_GET['selectedChar'])) {
+        $selectedCharID = $_GET['selectedChar'];
+
+        // Gather form input
+        $drivers = isset($_POST["form_fields"]["drivers"]) ? $_POST["form_fields"]["drivers"] : '';
+        $weapons = isset($_POST["form_fields"]["weapons"]) ? $_POST["form_fields"]["weapons"] : '';
+        $commercial = isset($_POST["form_fields"]["commercial"]) ? $_POST["form_fields"]["commercial"] : '';
+        $hunting = isset($_POST["form_fields"]["hunting"]) ? $_POST["form_fields"]["hunting"] : '';
+        $fishing = isset($_POST["form_fields"]["fishing"]) ? $_POST["form_fields"]["fishing"] : '';
+        $aviation = isset($_POST["form_fields"]["aviation"]) ? $_POST["form_fields"]["aviation"] : '';
+        $boating = isset($_POST["form_fields"]["boating"]) ? $_POST["form_fields"]["boating"] : '';
+
+        // Update the civCharacters database
+        $update_sql = "UPDATE civCharacters SET";
+        $update_params = array();
+
+        // Check and add each license individually
+        if ($drivers !== getLicenseValue($selectedCharID, 'driversLicense', $conn)) {
+            $update_sql .= " driversLicense = ?,";
+            $update_params[] = $drivers;
+        }
+
+        if ($weapons !== getLicenseValue($selectedCharID, 'weaponsLicense', $conn)) {
+            $update_sql .= " weaponsLicense = ?,";
+            $update_params[] = $weapons;
+        }
+
+        if ($commercial !== getLicenseValue($selectedCharID, 'commercialLicense', $conn)) {
+            $update_sql .= " commercialLicense = ?,";
+            $update_params[] = $commercial;
+        }
+
+        if ($hunting !== getLicenseValue($selectedCharID, 'huntingLicense', $conn)) {
+            $update_sql .= " huntingLicense = ?,";
+            $update_params[] = $hunting;
+        }
+
+        if ($fishing !== getLicenseValue($selectedCharID, 'fishingLicense', $conn)) {
+            $update_sql .= " fishingLicense = ?,";
+            $update_params[] = $fishing;
+        }
+
+        if ($aviation !== getLicenseValue($selectedCharID, 'aviationLicense', $conn)) {
+            $update_sql .= " aviationLicense = ?,";
+            $update_params[] = $aviation;
+        }
+
+        if ($boating !== getLicenseValue($selectedCharID, 'boatingLicense', $conn)) {
+            $update_sql .= " boatingLicense = ?,";
+            $update_params[] = $boating;
+        }
+
+        // Remove trailing comma
+        $update_sql = rtrim($update_sql, ',');
+
+        // Add WHERE clause for charID
+        $update_sql .= " WHERE charID = ?";
+        $update_params[] = $selectedCharID;
+
+        // Prepare and bind parameters
+        $stmt = mysqli_prepare($conn, $update_sql);
+        $param_types = str_repeat('s', count($update_params));
+        mysqli_stmt_bind_param($stmt, $param_types, ...$update_params);
+
+        // Execute the update statement
+        if (mysqli_stmt_execute($stmt)) {
+            echo '<script type="text/javascript">setTimeout(function(){ location.reload(true); }, 100);</script>';
+            header('Location: mdtCivilianSelected.php');
+            exit();
+
+        } else {
+            echo "Error updating licenses: " . mysqli_error($conn);
+        }
+
+        mysqli_stmt_close($stmt);
+    }
+}
+
+// Function to get the current value of a specific license for a given charID
+function getLicenseValue($charID, $licenseType, $conn)
+{
+    $select_sql = "SELECT $licenseType FROM civCharacters WHERE charID = ?";
+    $select_stmt = mysqli_prepare($conn, $select_sql);
+    mysqli_stmt_bind_param($select_stmt, "s", $charID);
+    mysqli_stmt_execute($select_stmt);
+    mysqli_stmt_bind_result($select_stmt, $value);
+    mysqli_stmt_fetch($select_stmt);
+    mysqli_stmt_close($select_stmt);
+
+    return $value;
+}
+?>
+        <?php
+            session_start();
+
+            // Check if the selectedChar parameter is present in the URL
+            if (isset($_GET['selectedChar'])) {
+            $selectedCharID = $_GET['selectedChar'];
+
+            $query = "SELECT * FROM civCharacters WHERE charID = $selectedCharID AND charOwner = $userid";
+            $result = mysqli_query($conn, $query);
+
+            if ($result) {
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $selectCharacterName = $row['charName'];
+                    $selectCharacterID = $row['charID'];
+                    $selectCharacterDOB = $row['charDOB'];
+                    $selectCharacterHairColor = $row['charHairColour'];
+                    $selectCharacterEyeColor = $row['charEyeColour'];
+                    $selectCharacterWeight = $row['charWeight'];
+                    $selectCharacterHeight = $row['charHeight'];
+                    $selectCharacterAddress = $row['charAddress'];
+                    $selectCharacterGender = $row['charGender'];
+                    $selectCharacterRace = $row['charRace'];
+                    $selectCharacterBuild = $row['charBuild'];
+                    $selectCharacterOccupation = $row['charOccupation'];
+                    $selectCharacterSSN = $row['charSSN'];
+                    $selectCharacterCreated = $row['charCreated'];
+
+                    $selectCharacterBloodType = $row['bloodType'];
+                    $selectCharacterAllergies = $row['allergies'];
+                    $selectCharacterEmergencyContact = $row['emergencyContact'];
+                    $selectCharacterMedication = $row['medication'];
+                    $selectCharacterOrganDonor = $row['organDonor'];
+
+                    $selectCharacterDrivers = $row['driversLicense'];
+                    $selectCharacterWeapons = $row['weaponsLicense'];
+                    $selectCharacterHunting = $row['huntingLicense'];
+                    $selectCharacterCommercial = $row['commercialLicense'];
+                    $selectCharacterFishing = $row['fishingLicense'];
+                    $selectCharacterAviation = $row['aviationLicense'];
+                    $selectCharacterBoating = $row['boatingLicense'];
+
+                        echo '<div data-elementor-type="popup" data-elementor-id="14063" class="elementor elementor-14063 elementor-location-popup" data-elementor-settings="{&quot;entrance_animation&quot;:&quot;zoomIn&quot;,&quot;entrance_animation_duration&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:0.15,&quot;sizes&quot;:[]},&quot;prevent_scroll&quot;:&quot;yes&quot;,&quot;avoid_multiple_popups&quot;:&quot;yes&quot;,&quot;exit_animation&quot;:&quot;zoomIn&quot;,&quot;prevent_close_on_background_click&quot;:&quot;yes&quot;,&quot;prevent_close_on_esc_key&quot;:&quot;yes&quot;,&quot;a11y_navigation&quot;:&quot;yes&quot;,&quot;timing&quot;:[]}" data-elementor-post-type="elementor_library">
+                        <div class="elementor-element elementor-element-1e28827 e-flex e-con-boxed e-con" data-id="1e28827" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
+                            <div class="e-con-inner">
+                                <div class="elementor-element elementor-element-59e7f7d e-grid vehicles-active e-con-full e-con" data-id="59e7f7d" data-element_type="container" data-settings="{&quot;grid_columns_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;background_background&quot;:&quot;classic&quot;,&quot;content_width&quot;:&quot;full&quot;,&quot;grid_columns_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_columns_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_rows_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
+                                    <div class="elementor-element elementor-element-bb4182f e-grid e-con-boxed e-con" data-id="bb4182f" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;grid_columns_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;content_width&quot;:&quot;boxed&quot;,&quot;grid_outline&quot;:&quot;yes&quot;,&quot;grid_columns_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_columns_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;grid_rows_grid_tablet&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;grid_rows_grid_mobile&quot;:{&quot;unit&quot;:&quot;fr&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
                                         <div class="e-con-inner">
-                                            <div class="elementor-element elementor-element-59e837f elementor-widget elementor-widget-heading" data-id="59e837f" data-element_type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="heading.default">
-                                                <div class="elementor-widget-container">
-                                                    <h2 class="elementor-heading-title elementor-size-default">Edit Medical Information</h2>
+                                            <div class="elementor-element elementor-element-d8558da e-flex e-con-boxed e-con" data-id="d8558da" data-element_type="container" data-settings="{&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
+                                                <div class="e-con-inner">
+                                                    <div class="elementor-element elementor-element-59e837f elementor-widget elementor-widget-heading" data-id="59e837f" data-element_type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="heading.default">
+                                                        <div class="elementor-widget-container">
+                                                            <h2 class="elementor-heading-title elementor-size-default">Edit Medical Information</h2>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="elementor-element elementor-element-43cfe28 e-flex e-con-boxed e-con e-parent" data-id="43cfe28" data-element_type="container" data-settings="{&quot;container_type&quot;:&quot;flex&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}" data-core-v316-plus="true">
-                                        <div class="e-con-inner">
-                                            <div class="elementor-element elementor-element-4e570a0 form elementor-button-align-stretch elementor-widget elementor-widget-form" data-id="4e570a0" data-element_type="widget" data-settings="{&quot;step_next_label&quot;:&quot;Next&quot;,&quot;step_previous_label&quot;:&quot;Previous&quot;,&quot;button_width&quot;:&quot;100&quot;,&quot;step_type&quot;:&quot;number_text&quot;,&quot;step_icon_shape&quot;:&quot;circle&quot;,&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="form.default">
-                                                <div class="elementor-widget-container">
-                                                    <form class="elementor-form" method="post" id="submitreport" name="edit-medical" novalidate="">
-                                                        <input type="hidden" name="post_id" value="14063"/>
-                                                        <input type="hidden" name="form_id" value="4e570a0"/>
-                                                        <input type="hidden" name="referer_title" value="c-mdt-civilianSelected"/>
-                                                        <input type="hidden" name="queried_id" value="13542"/>
-                                                        <div class="elementor-form-fields-wrapper elementor-labels-above">
-                                                            <div class="elementor-field-type-select elementor-field-group elementor-column elementor-field-group-name elementor-col-100 elementor-field-required">
-                                                                <label for="form-field-name" class="elementor-field-label">Blood Type							</label>
-                                                                <div class="elementor-field elementor-select-wrapper remove-before">
-                                                                    <div class="select-caret-down-wrapper">
-                                                                        <svg aria-hidden="true" class="e-font-icon-svg e-eicon-caret-down" viewbox="0 0 571.4 571.4" xmlns="http://www.w3.org/2000/svg">
-                                                                            <path d="M571 393Q571 407 561 418L311 668Q300 679 286 679T261 668L11 418Q0 407 0 393T11 368 36 357H536Q550 357 561 368T571 393Z"></path>
-                                                                        </svg>
+                                            <div class="elementor-element elementor-element-43cfe28 e-flex e-con-boxed e-con" data-id="43cfe28" data-element_type="container" data-settings="{&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
+                                                <div class="e-con-inner">
+                                                    <div class="elementor-element elementor-element-4e570a0 form elementor-button-align-stretch elementor-widget elementor-widget-form" data-id="4e570a0" data-element_type="widget" data-settings="{&quot;step_next_label&quot;:&quot;Next&quot;,&quot;step_previous_label&quot;:&quot;Previous&quot;,&quot;button_width&quot;:&quot;100&quot;,&quot;step_type&quot;:&quot;number_text&quot;,&quot;step_icon_shape&quot;:&quot;circle&quot;,&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="form.default">
+                                                        <div class="elementor-widget-container">
+                                                            <form action="" method="post" role="search">
+                                                                <input type="hidden" name="post_id" value="14063"/>
+                                                                <input type="hidden" name="form_id" value="4e570a0"/>
+                                                                <input type="hidden" name="referer_title" value="c-mdt-civilianSelected"/>
+                                                                <input type="hidden" name="queried_id" value="13542"/>
+                                                                <div class="elementor-form-fields-wrapper elementor-labels-above">
+                                                                    <div class="elementor-field-type-select elementor-field-group elementor-column elementor-field-group-name elementor-col-100 elementor-field-required">
+                                                                        <label for="form-field-name" class="elementor-field-label">Blood Type							</label>
+                                                                        <div class="elementor-field elementor-select-wrapper remove-before">
+                                                                            <div class="select-caret-down-wrapper">
+                                                                                <svg aria-hidden="true" class="e-font-icon-svg e-eicon-caret-down" viewbox="0 0 571.4 571.4" xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path d="M571 393Q571 407 561 418L311 668Q300 679 286 679T261 668L11 418Q0 407 0 393T11 368 36 357H536Q550 357 561 368T571 393Z"></path>
+                                                                                </svg>
+                                                                            </div>
+                                                                            <select name="form_fields[name]" id="form-field-name" class="elementor-field-textual elementor-size-sm" required="required" aria-required="true">
+                                                                                <option value="AB-" ' . ($selectCharacterBloodType == 'AB-' ? 'selected' : '') . ' >AB-</option>
+                                                                                <option value="O+" ' . ($selectCharacterBloodType == 'O+' ? 'selected' : '') . ' >O+</option>
+                                                                                <option value="O-" ' . ($selectCharacterBloodType == 'O-' ? 'selected' : '') . ' >O-</option>
+                                                                                <option value="A+" ' . ($selectCharacterBloodType == 'A+' ? 'selected' : '') . ' >A+</option>
+                                                                                <option value="A-" ' . ($selectCharacterBloodType == 'A-' ? 'selected' : '') . ' >A-</option>
+                                                                                <option value="B+" ' . ($selectCharacterBloodType == 'B+' ? 'selected' : '') . ' >B+</option>
+                                                                                <option value="B-" ' . ($selectCharacterBloodType == 'B-' ? 'selected' : '') . ' >B-</option>
+                                                                                <option value="AB+" ' . ($selectCharacterBloodType == 'AB+' ? 'selected' : '') . ' >AB+</option>
+                                                                            </select>
+                                                                        </div>
                                                                     </div>
-                                                                    <select name="form_fields[name]" id="form-field-name" class="elementor-field-textual elementor-size-sm" required="required" aria-required="true">
-                                                                        <option value="AB-">AB-</option>
-                                                                        <option value="O+">O+</option>
-                                                                        <option value="O-">O-</option>
-                                                                        <option value="A+">A+</option>
-                                                                        <option value="A-">A-</option>
-                                                                        <option value="B+">B+</option>
-                                                                        <option value="B-">B-</option>
-                                                                        <option value="AB+">AB+</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_70a92ab elementor-col-100 elementor-field-required">
-                                                                <label for="form-field-field_70a92ab" class="elementor-field-label">Emergency Contact							</label>
-                                                                <input size="1" type="text" name="form_fields[field_70a92ab]" id="form-field-field_70a92ab" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. 911" required="required" aria-required="true">
-                                                            </div>
-                                                            <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_09ec99a elementor-col-100 elementor-field-required">
-                                                                <label for="form-field-field_09ec99a" class="elementor-field-label">Allergies							</label>
-                                                                <input size="1" type="text" name="form_fields[field_09ec99a]" id="form-field-field_09ec99a" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. Cats, Dogs, Peanuts" required="required" aria-required="true">
-                                                            </div>
-                                                            <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_eb5e196 elementor-col-100 elementor-field-required">
-                                                                <label for="form-field-field_eb5e196" class="elementor-field-label">Medication							</label>
-                                                                <input size="1" type="text" name="form_fields[field_eb5e196]" id="form-field-field_eb5e196" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. Any medications you may require." required="required" aria-required="true">
-                                                            </div>
-                                                            <div class="elementor-field-type-select elementor-field-group elementor-column elementor-field-group-field_08e9cfd elementor-col-100 elementor-field-required">
-                                                                <label for="form-field-field_08e9cfd" class="elementor-field-label">Organ Donor							</label>
-                                                                <div class="elementor-field elementor-select-wrapper remove-before">
-                                                                    <div class="select-caret-down-wrapper">
-                                                                        <svg aria-hidden="true" class="e-font-icon-svg e-eicon-caret-down" viewbox="0 0 571.4 571.4" xmlns="http://www.w3.org/2000/svg">
-                                                                            <path d="M571 393Q571 407 561 418L311 668Q300 679 286 679T261 668L11 418Q0 407 0 393T11 368 36 357H536Q550 357 561 368T571 393Z"></path>
-                                                                        </svg>
+                                                                    <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_70a92ab elementor-col-100 elementor-field-required">
+                                                                        <label for="form-field-field_70a92ab" class="elementor-field-label">Emergency Contact							</label>
+                                                                        <input value="'.$selectCharacterEmergencyContact.'" size="1" type="text" name="form_fields[field_70a92ab]" id="form-field-field_70a92ab" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. 911" required="required" aria-required="true">
                                                                     </div>
-                                                                    <select name="form_fields[field_08e9cfd]" id="form-field-field_08e9cfd" class="elementor-field-textual elementor-size-sm" required="required" aria-required="true">
-                                                                        <option value="No">No</option>
-                                                                        <option value="Yes">Yes</option>
-                                                                    </select>
+                                                                    <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_09ec99a elementor-col-100 elementor-field-required">
+                                                                        <label for="form-field-field_09ec99a" class="elementor-field-label">Allergies							</label>
+                                                                        <input value="'.$selectCharacterAllergies.'" size="1" type="text" name="form_fields[field_09ec99a]" id="form-field-field_09ec99a" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. Cats, Dogs, Peanuts" required="required" aria-required="true">
+                                                                    </div>
+                                                                    <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_eb5e196 elementor-col-100 elementor-field-required">
+                                                                        <label for="form-field-field_eb5e196" class="elementor-field-label">Medication							</label>
+                                                                        <input value="'.$selectCharacterMedication.'" size="1" type="text" name="form_fields[field_eb5e196]" id="form-field-field_eb5e196" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e.g. Any medications you may require." required="required" aria-required="true">
+                                                                    </div>
+                                                                    <div class="elementor-field-type-select elementor-field-group elementor-column elementor-field-group-field_08e9cfd elementor-col-100 elementor-field-required">
+                                                                        <label for="form-field-field_08e9cfd" class="elementor-field-label">Organ Donor							</label>
+                                                                        <div class="elementor-field elementor-select-wrapper remove-before">
+                                                                            <div class="select-caret-down-wrapper">
+                                                                                <svg aria-hidden="true" class="e-font-icon-svg e-eicon-caret-down" viewbox="0 0 571.4 571.4" xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path d="M571 393Q571 407 561 418L311 668Q300 679 286 679T261 668L11 418Q0 407 0 393T11 368 36 357H536Q550 357 561 368T571 393Z"></path>
+                                                                                </svg>
+                                                                            </div>
+                                                                            <select name="form_fields[field_08e9cfd]" id="form-field-field_08e9cfd" class="elementor-field-textual elementor-size-sm" required="required" aria-required="true">
+                                                                                <option value="No">No</option>
+                                                                                <option value="Yes">Yes</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons">
+                                                                        <button style="box-shadow: none !important; text-transform: none;" name="updatemedical" type="submit" class="elementor-button elementor-size-sm">
+                                                                            <span>
+                                                                                <span class="elementor-button-icon"></span>
+                                                                                <span class="elementor-button-text">Update Medical information</span>
+                                                                            </span>
+                                                                        </button>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons">
-                                                                <button type="submit" class="elementor-button elementor-size-sm">
-                                                                    <span>
-                                                                        <span class="elementor-button-icon"></span>
-                                                                        <span class="elementor-button-text">Update Medical information</span>
-                                                                    </span>
-                                                                </button>
-                                                            </div>
+                                                            </form>
                                                         </div>
-                                                    </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -2271,10 +2674,71 @@ if (isset($_COOKIE['discord_access_token'])) {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    </div>';
+
+                        }
+                    }
+                }
+            }
+        ?>
+
+        <?php
+        session_start(); // Start the session
+
+        if (isset($_POST["updatemedical"])) {
+            if (isset($_GET['selectedChar'])) {
+                $selectedCharID = $_GET['selectedChar'];
+
+                // Gather form input
+                $bloodType = isset($_POST["form_fields"]["name"]) ? $_POST["form_fields"]["name"] : '';
+                $allergies = isset($_POST["form_fields"]["field_09ec99a"]) ? $_POST["form_fields"]["field_09ec99a"] : '';
+                $emergencyContact = isset($_POST["form_fields"]["field_70a92ab"]) ? $_POST["form_fields"]["field_70a92ab"] : '';
+                $medication = isset($_POST["form_fields"]["field_eb5e196"]) ? $_POST["form_fields"]["field_eb5e196"] : '';
+                $organDonor = isset($_POST["form_fields"]["field_08e9cfd"]) ? $_POST["form_fields"]["field_08e9cfd"] : '';
+
+                // Retrieve the existing medical information
+                $select_sql = "SELECT bloodType, allergies, emergencyContact, medication, organDonor FROM civCharacters WHERE charID=?";
+                $select_stmt = mysqli_prepare($conn, $select_sql);
+                mysqli_stmt_bind_param($select_stmt, "i", $selectedCharID);
+                mysqli_stmt_execute($select_stmt);
+                mysqli_stmt_store_result($select_stmt);
+
+                if (mysqli_stmt_num_rows($select_stmt) > 0) {
+                    mysqli_stmt_bind_result($select_stmt, $existingBloodType, $existingAllergies, $existingEmergencyContact, $existingMedication, $existingOrganDonor);
+                    mysqli_stmt_fetch($select_stmt);
+
+                    mysqli_stmt_close($select_stmt);
+
+                    // Check if the new input is different from the existing data
+                    if ($bloodType === $existingBloodType &&
+                        $allergies === $existingAllergies &&
+                        $emergencyContact === $existingEmergencyContact &&
+                        $medication === $existingMedication &&
+                        $organDonor === $existingOrganDonor) {
+                        // echo 'Medical information unchanged.';
+                    } else {
+                        // Prepare and execute the SQL UPDATE query
+                        $update_sql = "UPDATE civCharacters SET bloodType=?, allergies=?, emergencyContact=?, medication=?, organDonor=? WHERE charID=?";
+                        $stmt = mysqli_prepare($conn, $update_sql);
+                        mysqli_stmt_bind_param($stmt, "sssssi", $bloodType, $allergies, $emergencyContact, $medication, $organDonor, $selectedCharID);
+
+                        if (mysqli_stmt_execute($stmt)) {
+                            echo '<script type="text/javascript">setTimeout(function(){ location.reload(true); }, 100);</script>';
+                            header('Location: mdtCivilianSelected.php');
+                            exit();                
+                        } else {
+                            echo "Error updating character information: " . mysqli_error($conn);
+                        }
+
+                        mysqli_stmt_close($stmt);
+                    }
+                } else {
+                    echo "Error retrieving existing medical information: " . mysqli_error($conn);
+                    mysqli_stmt_close($select_stmt);
+                }
+            }
+        }
+        ?>
         <div data-elementor-type="popup" data-elementor-id="14069" class="elementor elementor-14069 elementor-location-popup" data-elementor-settings="{&quot;entrance_animation&quot;:&quot;zoomIn&quot;,&quot;entrance_animation_duration&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:0.15,&quot;sizes&quot;:[]},&quot;prevent_scroll&quot;:&quot;yes&quot;,&quot;avoid_multiple_popups&quot;:&quot;yes&quot;,&quot;exit_animation&quot;:&quot;zoomIn&quot;,&quot;prevent_close_on_background_click&quot;:&quot;yes&quot;,&quot;prevent_close_on_esc_key&quot;:&quot;yes&quot;,&quot;a11y_navigation&quot;:&quot;yes&quot;,&quot;timing&quot;:[]}" data-elementor-post-type="elementor_library">
             <div class="elementor-section-wrap">
                 <div class="elementor-element elementor-element-1e28827 e-flex e-con-boxed e-con e-parent" data-id="1e28827" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;container_type&quot;:&quot;flex&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}" data-core-v316-plus="true">
@@ -2295,7 +2759,7 @@ if (isset($_COOKIE['discord_access_token'])) {
                                         <div class="e-con-inner">
                                             <div class="elementor-element elementor-element-4e570a0 form elementor-button-align-stretch elementor-widget elementor-widget-form" data-id="4e570a0" data-element_type="widget" data-settings="{&quot;step_next_label&quot;:&quot;Next&quot;,&quot;step_previous_label&quot;:&quot;Previous&quot;,&quot;button_width&quot;:&quot;100&quot;,&quot;step_type&quot;:&quot;number_text&quot;,&quot;step_icon_shape&quot;:&quot;circle&quot;,&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="form.default">
                                                 <div class="elementor-widget-container">
-                                                    <form class="elementor-form" method="post" id="submitreport" name="edit-medical" novalidate="">
+                                                    <form action="" method="post" role="search">
                                                         <input type="hidden" name="post_id" value="14069"/>
                                                         <input type="hidden" name="form_id" value="4e570a0"/>
                                                         <input type="hidden" name="referer_title" value="c-mdt-civilianSelected"/>
@@ -2396,7 +2860,7 @@ if (isset($_COOKIE['discord_access_token'])) {
                                                                 </div>
                                                             </div>
                                                             <div class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons">
-                                                                <button type="submit" class="elementor-button elementor-size-sm">
+                                                                <button name="registervehicle" style="box-shadow: none !important; text-transform: none;" type="submit" class="elementor-button elementor-size-sm">
                                                                     <span>
                                                                         <span class="elementor-button-icon"></span>
                                                                         <span class="elementor-button-text">Register Vehicle</span>
@@ -2416,6 +2880,67 @@ if (isset($_COOKIE['discord_access_token'])) {
                 </div>
             </div>
         </div>
+        <?php
+        session_start(); // Start the session
+
+        if (isset($_GET['selectedChar'])) {
+            $selectedCharID = $_GET['selectedChar'];
+            $query = "SELECT * FROM civCharacters WHERE charID = $selectedCharID AND charOwner = $userid";
+            $result = mysqli_query($conn, $query);
+
+            if ($result) {
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        if (isset($_POST["registervehicle"])) {
+                            $characterName = $row['charName'];
+                            $vehicleLicensePlate = isset($_POST["form_fields"]["name"]) ? $_POST["form_fields"]["name"] : '';
+                            $vehicleMakeModel = isset($_POST["form_fields"]["field_5777540"]) ? $_POST["form_fields"]["field_5777540"] : '';
+                            $vehicleColour = isset($_POST["form_fields"]["field_2126f95"]) ? $_POST["form_fields"]["field_2126f95"] : '';
+                            $vehicleFlags = isset($_POST["form_fields"]["field_cdc20d7"]) ? $_POST["form_fields"]["field_cdc20d7"] : '';
+
+                            $vehicleInsurance = isset($_POST["form_fields"]["field_521a8bd"]) ? $_POST["form_fields"]["field_521a8bd"] : '';
+                            $vehicleRegistration = isset($_POST["form_fields"]["field_7059373"]) ? $_POST["form_fields"]["field_7059373"] : '';
+                            $vehicleTaxStatus = isset($_POST["form_fields"]["field_45f9481"]) ? $_POST["form_fields"]["field_45f9481"] : '';
+                            $vehicleInspectionStatus = isset($_POST["form_fields"]["field_19b1d27"]) ? $_POST["form_fields"]["field_19b1d27"] : '';
+
+
+                            // Check if the vehicle plate already exists for the selected charID
+                            $check_query = "SELECT * FROM civVehicles WHERE vehiclePlate = ? AND vehicleMakeModel = ? AND vehicleColour = ? AND charID = ?";
+                            $check_stmt = mysqli_prepare($conn, $check_query);
+                            mysqli_stmt_bind_param($check_stmt, "sssi", $vehicleLicensePlate, $vehicleMakeModel, $vehicleColour, $selectedCharID);
+                            mysqli_stmt_execute($check_stmt);
+                            mysqli_stmt_store_result($check_stmt);
+
+                            if (mysqli_stmt_num_rows($check_stmt) > 0) {
+                                // echo 'Vehicle plate already exists for the selected character.';
+                            } else {
+                                $randomVehicleID = mt_rand(10000, 99999);
+                                $randomVehicleVin = mt_rand(1000000, 9999999);
+
+                                if (!empty($vehicleLicensePlate)) {
+                                    $insert_sql = "INSERT INTO civVehicles (vehiclePlate, vehicleMakeModel, vehicleColour, vehicleInsurance, vehicleFlags, charName, charID, dateRegistered, vehicleID, vehicleVin, vehicleRegStatus, vehicleInspectionStatus, vehicleTaxStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                    $stmt = mysqli_prepare($conn, $insert_sql);
+                                    mysqli_stmt_bind_param($stmt, "sssssssssssss", $vehicleLicensePlate, $vehicleMakeModel, $vehicleColour, $vehicleInsurance, $vehicleFlags, $characterName, $selectedCharID, date('Y-m-d H:i:s'), $randomVehicleID, $randomVehicleVin, $vehicleRegistration, $vehicleInspectionStatus, $vehicleTaxStatus);
+
+                                    if (mysqli_stmt_execute($stmt)) {
+                                        echo '<script type="text/javascript">setTimeout(function(){ location.reload(true); }, 100);</script>';
+                                        header('Location: mdtCivilianCharSelect.php');
+                                        exit();
+                                    } else {
+                                        echo "Error inserting record: " . mysqli_error($conn);
+                                    }
+
+                                    mysqli_stmt_close($stmt);
+                                }
+                            }
+
+                            mysqli_stmt_close($check_stmt);
+                        }
+                    }
+                }
+            }
+        }
+        ?>
         <div data-elementor-type="popup" data-elementor-id="14091" class="elementor elementor-14091 elementor-location-popup" data-elementor-settings="{&quot;entrance_animation&quot;:&quot;zoomIn&quot;,&quot;entrance_animation_duration&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:0.15,&quot;sizes&quot;:[]},&quot;prevent_scroll&quot;:&quot;yes&quot;,&quot;avoid_multiple_popups&quot;:&quot;yes&quot;,&quot;exit_animation&quot;:&quot;zoomIn&quot;,&quot;prevent_close_on_background_click&quot;:&quot;yes&quot;,&quot;prevent_close_on_esc_key&quot;:&quot;yes&quot;,&quot;a11y_navigation&quot;:&quot;yes&quot;,&quot;timing&quot;:[]}" data-elementor-post-type="elementor_library">
             <div class="elementor-section-wrap">
                 <div class="elementor-element elementor-element-1e28827 e-flex e-con-boxed e-con e-parent" data-id="1e28827" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;container_type&quot;:&quot;flex&quot;,&quot;content_width&quot;:&quot;boxed&quot;,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}" data-core-v316-plus="true">
@@ -2436,7 +2961,7 @@ if (isset($_COOKIE['discord_access_token'])) {
                                         <div class="e-con-inner">
                                             <div class="elementor-element elementor-element-4e570a0 form elementor-button-align-stretch elementor-widget elementor-widget-form" data-id="4e570a0" data-element_type="widget" data-settings="{&quot;step_next_label&quot;:&quot;Next&quot;,&quot;step_previous_label&quot;:&quot;Previous&quot;,&quot;button_width&quot;:&quot;100&quot;,&quot;step_type&quot;:&quot;number_text&quot;,&quot;step_icon_shape&quot;:&quot;circle&quot;,&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="form.default">
                                                 <div class="elementor-widget-container">
-                                                    <form class="elementor-form" method="post" id="submitreport" name="register-weapon" novalidate="">
+                                                    <form action="" method="post" role="search">
                                                         <input type="hidden" name="post_id" value="14091"/>
                                                         <input type="hidden" name="form_id" value="4e570a0"/>
                                                         <input type="hidden" name="referer_title" value="c-mdt-civilianSelected"/>
@@ -2495,7 +3020,7 @@ if (isset($_COOKIE['discord_access_token'])) {
                                                                 </div>
                                                             </div>
                                                             <div class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons">
-                                                                <button type="submit" class="elementor-button elementor-size-sm">
+                                                                <button style="box-shadow: none !important; text-transform: none;" type="submit" class="elementor-button elementor-size-sm">
                                                                     <span>
                                                                         <span class="elementor-button-icon"></span>
                                                                         <span class="elementor-button-text">Update Weapon</span>
@@ -2535,7 +3060,7 @@ if (isset($_COOKIE['discord_access_token'])) {
                                         <div class="e-con-inner">
                                             <div class="elementor-element elementor-element-4e570a0 form elementor-button-align-stretch elementor-widget elementor-widget-form" data-id="4e570a0" data-element_type="widget" data-settings="{&quot;step_next_label&quot;:&quot;Next&quot;,&quot;step_previous_label&quot;:&quot;Previous&quot;,&quot;button_width&quot;:&quot;100&quot;,&quot;step_type&quot;:&quot;number_text&quot;,&quot;step_icon_shape&quot;:&quot;circle&quot;,&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="form.default">
                                                 <div class="elementor-widget-container">
-                                                    <form class="elementor-form" method="post" id="submitreport" name="register-weapon" novalidate="">
+                                                    <form action="" method="post" role="search">
                                                         <input type="hidden" name="post_id" value="14084"/>
                                                         <input type="hidden" name="form_id" value="4e570a0"/>
                                                         <input type="hidden" name="referer_title" value="c-mdt-civilianSelected"/>
@@ -2570,7 +3095,7 @@ if (isset($_COOKIE['discord_access_token'])) {
                                                             </div>
                                                             <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_5fd8525 elementor-col-100 elementor-field-required">
                                                                 <label for="form-field-field_5fd8525" class="elementor-field-label">Serial Number							</label>
-                                                                <input size="1" type="text" name="form_fields[field_5fd8525]" id="form-field-field_5fd8525" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="Auto-Generated" required="required" aria-required="true">
+                                                                <input disabled size="1" type="text" name="form_fields[field_5fd8525]" id="form-field-field_5fd8525" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="Auto-Generated" required="required" aria-required="true">
                                                             </div>
                                                             <div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_0bcb3ee elementor-col-100">
                                                                 <label for="form-field-field_0bcb3ee" class="elementor-field-label">Attachments (optional)							</label>
@@ -2594,7 +3119,7 @@ if (isset($_COOKIE['discord_access_token'])) {
                                                                 </div>
                                                             </div>
                                                             <div class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons">
-                                                                <button type="submit" class="elementor-button elementor-size-sm">
+                                                                <button name="registerweapon" style="box-shadow: none !important; text-transform: none;" type="submit" class="elementor-button elementor-size-sm">
                                                                     <span>
                                                                         <span class="elementor-button-icon"></span>
                                                                         <span class="elementor-button-text">Register Weapon</span>
@@ -2614,6 +3139,66 @@ if (isset($_COOKIE['discord_access_token'])) {
                 </div>
             </div>
         </div>
+
+        <?php
+        session_start(); // Start the session
+
+        if (isset($_GET['selectedChar'])) {
+            $selectedCharID = $_GET['selectedChar'];
+            $query = "SELECT * FROM civCharacters WHERE charID = $selectedCharID AND charOwner = $userid";
+            $result = mysqli_query($conn, $query);
+
+            if ($result) {
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        if (isset($_POST["registerweapon"])) {
+                            $characterName = $row['charName'];
+
+                            $weaponType = isset($_POST["form_fields"]["name"]) ? $_POST["form_fields"]["name"] : '';
+                            $weaponModel = isset($_POST["form_fields"]["field_5777540"]) ? $_POST["form_fields"]["field_5777540"] : '';
+                            $weaponColour = isset($_POST["form_fields"]["field_2126f95"]) ? $_POST["form_fields"]["field_2126f95"] : '';
+                            $weaponFlags = isset($_POST["form_fields"]["field_cdc20d7"]) ? $_POST["form_fields"]["field_cdc20d7"] : '';
+                            $weaponAttachments = isset($_POST["form_fields"]["field_0bcb3ee"]) ? $_POST["form_fields"]["field_0bcb3ee"] : '';
+                            $weaponRegistration = isset($_POST["form_fields"]["field_7059373"]) ? $_POST["form_fields"]["field_7059373"] : '';
+
+                            // Check if the vehicle plate already exists for the selected charID
+                            $check_query = "SELECT * FROM civWeapons WHERE weaponType = ? AND weaponModel = ? AND weaponColour = ? AND weaponAttachments = ? AND charID = ?";
+                            $check_stmt = mysqli_prepare($conn, $check_query);
+                            mysqli_stmt_bind_param($check_stmt, "ssssi", $weaponType, $weaponModel, $weaponColour, $weaponAttachments, $selectedCharID);
+                            mysqli_stmt_execute($check_stmt);
+                            mysqli_stmt_store_result($check_stmt);
+
+                            if (mysqli_stmt_num_rows($check_stmt) > 0) {
+                                // echo 'Vehicle plate already exists for the selected character.';
+                            } else {
+                                $randomVehicleID = mt_rand(10000, 99999);
+                                $randomWeaponSerial = mt_rand(1000000, 9999999);
+
+                                if (!empty($weaponType)) {
+                                    $insert_sql = "INSERT INTO civWeapons (charName, charID, weaponType, weaponModel, weaponFlags, weaponSerialNumber, weaponColour, dateRegistered, weaponAttachments, weaponRegStatus, weaponID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                    $stmt = mysqli_prepare($conn, $insert_sql);
+                                    mysqli_stmt_bind_param($stmt, "sssssssssss", $characterName, $selectedCharID, $weaponType, $weaponModel, $weaponFlags, $randomWeaponSerial, $weaponColour, date('Y-m-d H:i:s'), $weaponAttachments, $weaponRegistration, $randomVehicleID);
+
+                                    if (mysqli_stmt_execute($stmt)) {
+                                        echo '<script type="text/javascript">setTimeout(function(){ location.reload(true); }, 100);</script>';
+                                        header('Location: mdtCivilianSelected.php');
+                                        exit();
+                                    } else {
+                                        echo "Error inserting record: " . mysqli_error($conn);
+                                    }
+
+                                    mysqli_stmt_close($stmt);
+                                }
+                            }
+
+                            mysqli_stmt_close($check_stmt);
+                        }
+                    }
+                }
+            }
+        }
+        ?>
+
         <script type="text/javascript">
             (function() {
                 var c = document.body.className;
